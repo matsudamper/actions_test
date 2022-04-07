@@ -1,19 +1,15 @@
 name: merge_test
 on:
   pull_request:
-  workflow_call:
   workflow_dispatch:
-  issue_comment:
-    types:
-      - created
 
 permissions:
   contents: read
 
 jobs:
   test:
-    if: ${{ github.event.comment.body == './test'}}
+    if: ${{ github.run_attempt != 1 }}
     uses: ./.github/workflows/call_test.yml
   lint:
-    if: ${{ github.event.comment.body == './test'}}
+    if: ${{ github.run_attempt != 1 }}
     uses: ./.github/workflows/call_ktlint.yml
