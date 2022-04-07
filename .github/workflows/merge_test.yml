@@ -1,6 +1,6 @@
 name: merge_test
 on:
-  workflow_call:
+  pull_request:
   workflow_dispatch:
 
 permissions:
