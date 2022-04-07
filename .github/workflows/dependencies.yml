@@ -8,7 +8,7 @@ jobs:
   build:
     if: ${{ github.event.label.name }} == "dependencies"
     runs-on: ubuntu-latest
+   - uses: matsudamper/actions_test/.github/workflows/call_ktlint@${{ github.sha }}
+   - uses: .github/workflows/call_test
     steps:
       - uses: actions/checkout@v3
-      - uses: matsudamper/actions_test/.github/workflows/call_ktlint@${{ github.sha }}
-      - uses: .github/workflows/call_test
