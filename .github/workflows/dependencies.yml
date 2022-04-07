@@ -1,12 +1,11 @@
 name: Dependencies
 on:
-  push:
-    tags:
-      - dependencies
+  pull_request
 permissions:
   contents: read
 jobs:
   build:
+    if: ${{ github.actor == 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
