@@ -1,6 +1,5 @@
 name: dist firebase
 on:
-  workflow_dispatch:
   pull_request_comment:
     types: [ submitted ]
 
