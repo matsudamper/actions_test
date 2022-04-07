@@ -6,7 +6,7 @@ permissions:
   contents: read
 jobs:
   hoge:
-    uses: .github/workflows/call_test.yml
+    uses: .github/workflows/call_test.yml@${{ github.sha }}
   build:
     if: ${{ github.event.label.name }} == "dependencies"
     runs-on: ubuntu-latest
