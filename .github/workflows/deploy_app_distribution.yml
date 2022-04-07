@@ -1,7 +1,7 @@
 name: dist firebase
 on:
-  pull_request_comment:
-    types: [ submitted ]
+  issue_comment:
+    types: [ created ]
 
 permissions:
   contents: read
