@@ -8,6 +8,11 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1" apply false
 }
 
+repositories {
+    google()
+    mavenCentral()
+}
+
 allprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
