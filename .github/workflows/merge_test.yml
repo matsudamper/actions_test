@@ -11,4 +11,8 @@ jobs:
     uses: ./.github/workflows/call_test.yml
   lint:
     uses: ./.github/workflows/call_ktlint.yml
-
+  hoge:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo ${{ github.run_attempt }}
