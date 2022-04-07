@@ -1,6 +1,6 @@
 name: ktlintCheck
 on:
-  workflow_call:
+  workflow_call
 permissions:
   contents: read
 jobs:
