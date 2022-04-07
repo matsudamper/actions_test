@@ -1,0 +1,17 @@
+name: dist firebase
+on:
+  workflow_dispatch:
+  pull_request_comment:
+    types: [ submitted ]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    if: ${{ github.event.comment.body == './test'}}
+    uses: ./.github/workflows/call_test.yml
+  lint:
+    if: ${{ github.event.comment.body == './test'}}
+    uses: ./.github/workflows/call_ktlint.yml
+
