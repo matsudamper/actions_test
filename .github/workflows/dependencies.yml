@@ -2,9 +2,14 @@ name: Dependencies
 on:
   pull_request:
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
-  build:
+  test:
+    if: ${{ github.event.label.name }} == "dependencies"
+    uses: ./.github/workflows/call_test.yml
+  lint:
     if: ${{ github.event.label.name }} == "dependencies"
     uses: ./.github/workflows/call_test.yml
