@@ -1,0 +1,14 @@
+name: merge_test
+on:
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    uses: ./.github/workflows/call_test.yml
+  lint:
+    uses: ./.github/workflows/call_ktlint.yml
