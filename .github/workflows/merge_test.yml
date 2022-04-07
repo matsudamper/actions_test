@@ -10,4 +10,4 @@ jobs:
   test:
     uses: ./.github/workflows/call_test.yml
   lint:
-    uses: ./.github/workflows/call_test.yml
+    uses: ./.github/workflows/call_ktlint.yml
