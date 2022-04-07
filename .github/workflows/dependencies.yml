@@ -7,7 +7,7 @@ permissions:
 jobs:
   build:
     if: ${{ github.event.label.name }} == "dependencies"
+    uses: matsudamper/actions_test/.github/workflows/call_ktlint@${{ github.sha }}
+    uses: .github/workflows/call_test
     runs-on: ubuntu-latest
     steps:
-      - uses: matsudamper/actions_test/.github/workflows/call_ktlint@${{ github.sha }}
-      - uses: .github/workflows/call_test
