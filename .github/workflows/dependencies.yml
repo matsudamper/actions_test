@@ -6,7 +6,7 @@ permissions:
   contents: read
 jobs:
   build:
-    if: {{ github.event.label.name }} == "dependencies"
+    if: ${{ github.event.label.name }} == "dependencies"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
