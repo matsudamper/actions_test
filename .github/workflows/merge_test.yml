@@ -8,11 +8,8 @@ permissions:
 
 jobs:
   test:
+    if: ${{ github.run_attempt != "1" }}
     uses: ./.github/workflows/call_test.yml
   lint:
+    if: ${{ github.run_attempt != "1" }}
     uses: ./.github/workflows/call_ktlint.yml
-  hoge:
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo ${{ github.run_attempt }}
