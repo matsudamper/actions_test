@@ -10,5 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: .github/workflows/call_ktlint
+      - uses: matsudamper/actions_test/.github/workflows/call_ktlint@${{ github.sha }}
       - uses: .github/workflows/call_test
