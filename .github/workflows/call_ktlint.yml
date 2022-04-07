@@ -1,11 +1,6 @@
 name: ktlintCheck
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    types: [ opened ]
-    branches:
-      - "dependabot/**"
+  workflow_call:
 permissions:
   contents: read
 jobs:

@@ -1,11 +1,8 @@
-name: Test
+name: Dependencies
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    types: [ opened ]
-    branches:
-      - "dependabot/**"
+    tags:
+      - dependencies
 permissions:
   contents: read
 jobs:
