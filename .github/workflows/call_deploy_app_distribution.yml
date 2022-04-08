@@ -1,6 +1,7 @@
 name: deploy app distribution
 on:
   workflow_call:
+  workflow_dispatch:
 
 permissions:
   contents: read
