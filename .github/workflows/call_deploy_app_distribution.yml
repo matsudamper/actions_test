@@ -36,6 +36,7 @@ jobs:
           output: |
             title: Summary
             summary: ${{ steps.vars.outputs.html }}  
+            conclusion: "success"
             status: completed
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -44,16 +45,8 @@ jobs:
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
-      - name: hoge
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: |
-          echo ${{ github.event }}
-          echo ${{ github }}
-          echo "$GITHUB_CONTEXT"
       - uses: octokit/request-action@v2.x
         id: comment
-
         with:
           route: POST ${{ github.event.issue.comments_url }}
           body: ${{ toJSON(env.REQUEST_BODY) }}
