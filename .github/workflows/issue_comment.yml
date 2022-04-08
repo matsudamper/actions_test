@@ -10,7 +10,3 @@ jobs:
   test:
     if: ${{ github.event.issue.pull_request && github.event.comment.body == './distFirebase' }}
     uses: ./.github/workflows/call_deploy_app_distribution.yml
-#    runs-on: ubuntu-latest
-#    steps:
-#      - run: |
-#          echo ${{ github.event.issue.pull_request }}
