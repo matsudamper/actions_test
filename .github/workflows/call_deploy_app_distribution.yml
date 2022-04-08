@@ -21,7 +21,7 @@ jobs:
 #        with:
 #          arguments: assembleRelease -x lint
       - run: |
-          echo "1.1.0" > /version.txt
+          echo "1.1.0" > ~/version.txt
       - uses: actions/upload-artifact@v3
         with:
           name: app distribution version
