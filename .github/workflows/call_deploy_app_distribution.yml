@@ -14,8 +14,6 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
       - name: set
-        with:
-          Hoge: hogehoge
         run: |
           echo "echo"
           echo "$Hoge"
