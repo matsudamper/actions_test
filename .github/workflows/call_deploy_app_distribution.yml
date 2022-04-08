@@ -26,7 +26,7 @@ jobs:
         id: check_runs
         with:
           route: POST /repos/{owner}/{repo}/check-runs
-          owner: ${{ env.GITHUB_REPOSITORY_OWNER }}
+          owner: "matsudamper"
           repo: ${{ github.event.repository.name }}
           name: "result"
           head_sha: ${{ github.sha }}
