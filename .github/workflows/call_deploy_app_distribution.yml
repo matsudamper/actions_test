@@ -35,9 +35,9 @@ jobs:
           head_sha: ${{ github.sha }}
           output: |
             title: Summary
-            summary: ${{ steps.vars.outputs.html }}  
+            summary: ${{ steps.vars.outputs.html }}
             conclusion: "success"
-            status: completed
+            status: "completed"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   comment:
