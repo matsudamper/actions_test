@@ -39,3 +39,21 @@ jobs:
             status: completed
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  comment:
+    needs: [ main ]
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: octokit/request-action@v2.x
+        id: comment
+
+        with:
+          route: POST ${{ github.event.pull_request.comments_url }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          body: ${{ toJSON(env.REQUEST_BODY) }}
+        env:
+          REQUEST_BODY: |
+            Multi-line string with *special* characters:
+            - "'`
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
