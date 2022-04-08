@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       feature_1:
-        description: feature_1
+        description: "feature 1"
         required: false
         default: false
         type: boolean
@@ -19,6 +19,9 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+      - name: "build step"
+        run: |
+          echo ${{ github.event.inputs.feature_1 }}
       - name: set
         id: vars
         run: |
