@@ -16,10 +16,10 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-      - name: assembleRelease
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: assembleRelease -x lint
+#      - name: assembleRelease
+#        uses: gradle/gradle-build-action@v2
+#        with:
+#          arguments: assembleRelease -x lint
       - run: |
           echo "1.1.0" > /version.txt
       - uses: actions/upload-artifact@v3
