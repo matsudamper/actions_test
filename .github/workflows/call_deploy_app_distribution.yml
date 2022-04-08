@@ -40,25 +40,8 @@ jobs:
             summary: ${{ steps.vars.outputs.html }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      - uses: octokit/request-action@v2.x
-#        id: update_check_runs
-#        with:
-#          route: PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}
-#          owner: ${{ github.repository_owner }}
-#          repo: ${{ github.event.repository.name }}
-#          name: "Result Dashboard"
-#          head_sha: ${{ github.sha }}
-#          check_run_id: ${{ fromJson(steps.create_check_run.outputs.data).id }}
-#          conclusion: "success"
-#          status: "completed"
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  comment:
-    needs: [ main ]
-    if: ${{ github.event.issue.pull_request }}
-    runs-on: ubuntu-latest
-    steps:
       - uses: octokit/request-action@v2.x
+        if: ${{ github.event.issue.pull_request }}
         id: comment
         with:
           route: POST ${{ github.event.issue.comments_url }}
