@@ -18,7 +18,7 @@ jobs:
       - name: assembleFirebaseRelease
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: assembleFirebaseRelease -x lint -x lintVitalFirebaseRelease
+          arguments: assembleFirebaseRelease -x lint
       - name: appDistributionUploadFirebaseRelease
         uses: gradle/gradle-build-action@v2
         with:
