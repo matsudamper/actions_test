@@ -56,8 +56,6 @@ jobs:
 
         with:
           route: POST ${{ github.event.issue.comments_url }}
-          owner: ${{ github.repository_owner }}
-          repo: ${{ github.event.repository.name }}
           body: ${{ toJSON(env.REQUEST_BODY) }}
         env:
           REQUEST_BODY: |
