@@ -16,13 +16,23 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-#      - name: assembleRelease
-#        uses: gradle/gradle-build-action@v2
-#        with:
-#          arguments: assembleRelease -x lint
       - run: |
           echo "1.1.0" > ~/version.txt
       - uses: actions/upload-artifact@v3
         with:
           name: app distribution version
           path: ~/version.txt
+      - uses: octokit/request-action@v2.x
+        id: check_runs
+        with:
+          route: POST /repos/{owner}/{repo}/check-runs
+          owner: ${{ GITHUB_REPOSITORY_OWNER }}
+          repo: ${{ github.event.repository.name }}
+          name: "result"
+          head_sha: ${{ github.sha }}
+          output: | # The | is significant!
+            title: Test check run title
+            summary: A summary of the test check run
+            text: hogehoge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
