@@ -2,6 +2,12 @@ name: deploy app distribution
 on:
   workflow_call:
   workflow_dispatch:
+    inputs:
+      feature_1:
+        description: feature_1
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   main:
