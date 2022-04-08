@@ -26,20 +26,33 @@ jobs:
           EOS
           )
       - uses: octokit/request-action@v2.x
-        id: check_runs
+        id: create_check_run
         with:
           route: POST /repos/{owner}/{repo}/check-runs
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
           name: "Result Dashboard"
           head_sha: ${{ github.sha }}
+          conclusion: "success"
+          status: "completed"
           output: |
             title: Summary
             summary: ${{ steps.vars.outputs.html }}
-            conclusion: "success"
-            status: "completed"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - uses: octokit/request-action@v2.x
+#        id: update_check_runs
+#        with:
+#          route: PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}
+#          owner: ${{ github.repository_owner }}
+#          repo: ${{ github.event.repository.name }}
+#          name: "Result Dashboard"
+#          head_sha: ${{ github.sha }}
+#          check_run_id: ${{ fromJson(steps.create_check_run.outputs.data).id }}
+#          conclusion: "success"
+#          status: "completed"
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   comment:
     needs: [ main ]
     if: ${{ github.event.issue.pull_request }}
