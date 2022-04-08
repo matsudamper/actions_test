@@ -44,7 +44,10 @@ jobs:
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - name: hoge
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: |
           echo ${{ github.event }}
           echo ${{ github }}
           echo "$GITHUB_CONTEXT"
