@@ -1,4 +1,4 @@
-name: dist firebase
+name: deploy app distribution
 on:
   issue_comment:
     types: [ created ]
@@ -7,10 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    if: ${{ github.event.comment.body == './test'}}
+  dist_app_distribution:
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == './test' }}
     uses: ./.github/workflows/call_test.yml
-  lint:
-    if: ${{ github.event.comment.body == './test'}}
-    uses: ./.github/workflows/call_ktlint.yml
 
