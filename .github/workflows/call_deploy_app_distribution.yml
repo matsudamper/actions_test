@@ -28,7 +28,7 @@ jobs:
           name: "Result Dashboard"
           head_sha: ${{ github.sha }}
           output: |
-            title: Test check run title
+            title: Summary
             summary: |
               <table>
               <tr>
