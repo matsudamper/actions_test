@@ -45,10 +45,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo ${{ github.event.pull_request.comments_url }}
-          echo ${{ github.event.pull_request }}
           echo ${{ github.event }}
           echo ${{ github }}
+          echo "$GITHUB_CONTEXT"
       - uses: octokit/request-action@v2.x
         id: comment
 
