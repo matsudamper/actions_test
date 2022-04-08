@@ -13,12 +13,6 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-      - run: |
-          echo "1.1.0" > ~/version.txt
-      - uses: actions/upload-artifact@v3
-        with:
-          name: app distribution version
-          path: ~/version.txt
       - uses: octokit/request-action@v2.x
         id: check_runs
         with:
