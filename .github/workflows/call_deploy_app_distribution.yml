@@ -44,6 +44,8 @@ jobs:
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
+      - run: |
+          echo ${{ github.event.pull_request.comments_url }}
       - uses: octokit/request-action@v2.x
         id: comment
 
