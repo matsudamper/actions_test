@@ -25,11 +25,12 @@ jobs:
           route: POST /repos/{owner}/{repo}/check-runs
           owner: "matsudamper"
           repo: ${{ github.event.repository.name }}
-          name: "result"
+          name: "Result Dashboard"
           head_sha: ${{ github.sha }}
           output: | # The | is significant!
             title: Test check run title
             summary: A summary of the test check run
             text: hogehoge
+            status: completed
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
