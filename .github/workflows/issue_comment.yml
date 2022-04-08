@@ -1,0 +1,13 @@
+name: issue comment
+on:
+  issue_comment:
+    types: [ created ]
+
+permissions:
+  contents: read
+
+jobs:
+  dist_app_distribution:
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == './distFirebase' }}
+    uses: ./github/workflows/call_deploy_app_distribution.yml
+
