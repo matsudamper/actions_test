@@ -14,9 +14,17 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
       - name: set
+        id: vars
         run: |
-          echo "echo"
-          echo "$Hoge"
+          echo ::set-output name=html::$(cat << EOS
+          <table>
+          <tr>
+          <td>Firebase Version</td>
+          <td>hogehoge</td>
+          </tr>
+          </table>
+          EOS
+          )
       - uses: octokit/request-action@v2.x
         id: check_runs
         with:
@@ -27,13 +35,7 @@ jobs:
           head_sha: ${{ github.sha }}
           output: |
             title: Summary
-            summary: |
-              <table>
-              <tr>
-              <td>Firebase Version</td>
-              <td>hogehoge</td>
-              </tr>
-              </table>
+            summary: ${{ steps.vars.outputs.html }}  
             status: completed
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
