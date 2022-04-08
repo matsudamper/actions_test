@@ -23,14 +23,19 @@ jobs:
         id: check_runs
         with:
           route: POST /repos/{owner}/{repo}/check-runs
-          owner: "matsudamper"
+          owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
           name: "Result Dashboard"
           head_sha: ${{ github.sha }}
-          output: | # The | is significant!
+          output: |
             title: Test check run title
-            summary: A summary of the test check run
-            text: hogehoge
+            summary: |
+              <table>
+              <tr>
+              <td>Firebase Version</td>
+              <td>hogehoge</td>
+              </tr>
+              </table>
             status: completed
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
