@@ -46,6 +46,9 @@ jobs:
     steps:
       - run: |
           echo ${{ github.event.pull_request.comments_url }}
+          echo ${{ github.event.pull_request }}
+          echo ${{ github.event }}
+          echo ${{ github }}
       - uses: octokit/request-action@v2.x
         id: comment
 
