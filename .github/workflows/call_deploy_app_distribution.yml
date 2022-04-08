@@ -15,11 +15,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-      - name: assembleFirebaseRelease
+      - name: assembleRelease
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: assembleFirebaseRelease -x lint
-      - name: appDistributionUploadFirebaseRelease
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: assembleRelease
+          arguments: assembleRelease -x lint
