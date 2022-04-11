@@ -27,4 +27,15 @@ allprojects {
             reporter(ReporterType.CHECKSTYLE)
         }
     }
+
+    tasks.withType<org.jlleitschuh.gradle.ktlint.tasks.GenerateReportsTask> {
+        val name = if (project.path == ":") {
+            ""
+        } else {
+            project.path.replace(":", "-")
+        }
+        reportsOutputDirectory.set(
+            project.rootProject.layout.buildDirectory.dir("reports/ktlint/report$name")
+        )
+    }
 }
