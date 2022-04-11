@@ -45,7 +45,9 @@ val indexList: List<Int> = buildList {
             sequence {
                 yield(it.startsWith("diff --git"))
                 yield(diffResult.getOrNull(index + 1)?.startsWith("index") == true)
-                yield(diffResult.getOrNull(index + 2)?.startsWith("@@") == true)
+                yield(diffResult.getOrNull(index + 2)?.startsWith("---") == true)
+                yield(diffResult.getOrNull(index + 3)?.startsWith("+++") == true)
+                yield(diffResult.getOrNull(index + 4)?.startsWith("@@") == true)
             }.all { it }
         ) {
             resultIndexList.add(index)
