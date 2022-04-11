@@ -23,21 +23,24 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: ktlintFormat
+
+  check-runs:
+    needs: [main]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
       - name: Cache main.kts
-        if: ${{ always() }}
         uses: actions/cache@v3
         with:
           path: |
             ~/.cache/main.kts.compiled.cache
           key: ${{ hashFiles('**/*.main.kts') }}
       - name: set
-        if: ${{ failure() }}
         id: vars
         run: |
           echo ::set-output name=annotations::$(.github/workflows/script/diff_annotations.main.kts)
           echo ::set-output name=xml::$(find . -type f -path './build/reports/ktlint/*.xml' | xargs cat)
       - name: ktlint check-runs
-        if: ${{ failure() }}
         uses: octokit/request-action@v2.x
         id: create_check_run
         with:
