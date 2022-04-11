@@ -3,36 +3,9 @@
 @file:DependsOn("com.google.code.gson:gson:2.9.0")
 @file:OptIn(ExperimentalStdlibApi::class)
 
-import java.io.File
 import com.google.gson.Gson
 
-System.err.println("======================")
-System.err.println(System.getenv("DIFF"))
-System.getenv().forEach {
-    System.err.println("======================")
-    System.err.println("${it.key}:${it.value::class} = ${it.value}")
-}
-
-val diffResult = Runtime.getRuntime().exec(
-    "git diff -U0",
-    null,
-    File(".")
-).let { process ->
-    process.errorStream.use { stream ->
-        stream.bufferedReader().use { reader ->
-            reader.lineSequence()
-                .onEach { System.err.println(it) }
-                .toList()
-        }
-    }
-
-    process.inputStream.use { stream ->
-        stream.bufferedReader().use { reader ->
-            reader.lineSequence()
-                .toList()
-        }
-    }
-}
+val diffResult = System.getenv("DIFF").split("\n")
 
 val indexList: List<Int> = buildList {
     val resultIndexList = this

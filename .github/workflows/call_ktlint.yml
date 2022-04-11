@@ -51,7 +51,6 @@ jobs:
       - name: annotations
         env:
           DIFF: ${{ toJson(env.DIFF) }}
-          DIFF2: ${{ env.DIFF }}
         run: |
           echo ::set-output name=value::$(./.github/workflows/script/diff_annotations.main.kts)
       - name: ktlint check-runs
