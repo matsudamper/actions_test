@@ -85,9 +85,4 @@ val result = indexList.zip(indexList.drop(1).plus(diffResult.size)).map {
     }
 }
 
-result.flatten().forEach {
-    System.err.println("body==============")
-    System.err.println(it.message)
-}
-
 println(Gson().toJson(result.flatten()))

@@ -28,6 +28,7 @@ jobs:
         id: vars
         run: |
           echo ::set-output name=annotations::$(.github/workflows/script/diff_annotations.main.kts)
+          echo ::set-output name=xml::$(find . -type f -path './build/reports/ktlint/*.xml' | xargs cat)
       - name: ktlint check-runs
         if: ${{ failure() }}
         uses: octokit/request-action@v2.x
@@ -41,7 +42,7 @@ jobs:
           conclusion: "failure"
           status: "completed"
           output: |
-            title: "Kotlint"
+            title: "Ktlint"
             summary: ${{ toJson(steps.vars.outputs.annotations) }}
             annotations: ${{ steps.vars.outputs.annotations }}
         env:
