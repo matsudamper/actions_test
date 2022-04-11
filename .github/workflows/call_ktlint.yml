@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHA: ${{ (github.event.pull_request.head.sha != null && github.event.pull_request.head.sha) || github.sha }}
+    outputs:
+      output1: ${{ steps.vars.outputs.diff }}
+      output2: ${{ steps.vars.outputs.xml_text }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -49,11 +52,7 @@ jobs:
         id: vars
         run: |
           echo "====="
-          echo ${{ toJson(needs) }}
-          echo "====="
-          echo ${{ needs }}
-          echo "====="
-          echo ${{ toJson(needs.main) }}
+          echo '${{ toJson(needs) }}'
           echo "====="
           echo ::set-output name=annotations::$(${{ env.DIFF }})
       - name: ktlint check-runs
