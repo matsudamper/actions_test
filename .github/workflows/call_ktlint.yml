@@ -28,14 +28,6 @@ jobs:
         id: vars
         run: |
           echo ::set-output name=annotations::$(.github/workflows/script/diff_annotations.main.kts)
-      - name: print
-        if: ${{ failure() }}
-        run: |
-          echo ${{ toJson(steps.vars.outputs.annotations) }}
-          echo "====="
-          echo ${{ steps.vars.outputs.annotations }}
-          echo "===sha==="
-          echo ${{ github.sha }}
       - name: ktlint check-runs
         if: ${{ failure() }}
         uses: octokit/request-action@v2.x
