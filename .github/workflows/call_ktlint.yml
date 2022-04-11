@@ -46,6 +46,9 @@ jobs:
           head_sha: ${{ github.sha }}
           conclusion: "failure"
           status: "completed"
-          annotations: ${{ toJson(steps.vars.outputs.annotations) }}
+          output: |
+            title: "Kotlint"
+            summary: "Summary"
+            annotations: ${{ toJson(steps.vars.outputs.annotations) }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
