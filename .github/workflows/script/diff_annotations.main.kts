@@ -96,4 +96,4 @@ result.flatten().forEach {
     System.err.println(it.message)
 }
 
-Gson().toJson(result.flatten())
+println(Gson().toJson(result.flatten()))
