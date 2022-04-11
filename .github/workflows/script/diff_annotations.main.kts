@@ -6,6 +6,7 @@
 import com.google.gson.Gson
 
 val diffResult = System.getenv("DIFF").split("\n")
+System.err.println("DIFF -> $diffResult")
 
 val indexList: List<Int> = buildList {
     val resultIndexList = this
@@ -65,6 +66,7 @@ val result = indexList.zip(indexList.drop(1).plus(diffResult.size)).map {
     }
 }
 
+System.err.println("=====RESULT=====")
 result.flatten().forEach {
     println("=====${it.path}=====")
     println("${it.start_line}-${it.end_line}")
