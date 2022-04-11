@@ -55,7 +55,13 @@ jobs:
       - name: create annotations
         id: annotations
         run: |
-          echo ::set-output name=value::$(./.github/workflows/script/diff_annotations.main.kts "$(cat /tmp/artifact/diff.txt)")
+          RESULT=$(./.github/workflows/script/diff_annotations.main.kts "$(cat /tmp/artifact/diff.txt)")
+          echo "=================="
+          echo "$RESULT"
+          echo "=================="
+          echo "$(echo $RESULT)"
+          echo "=================="
+          echo ::set-output name=value::"$(echo $RESULT)"
       - name: ktlint check-runs
         uses: octokit/request-action@v2.x
         id: create_check_run
