@@ -34,6 +34,8 @@ jobs:
           echo ${{ toJson(steps.vars.outputs.annotations) }}
           echo "====="
           echo ${{ steps.vars.outputs.annotations }}
+          echo "===sha==="
+          echo ${{ github.sha }}
       - name: ktlint check-runs
         if: ${{ failure() }}
         uses: octokit/request-action@v2.x
