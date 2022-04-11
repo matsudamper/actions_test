@@ -28,7 +28,7 @@ jobs:
         if: ${{ failure() }}
         id: vars
         run: |
-          export DIFF = 
+          export DIFF="$(git diff -U0)"
           echo ::set-output name=diff_json::${{ toJson(env.DIFF) }}
           echo ::set-output name=diff::"$(git diff -U0)"
           echo ::set-output name=xml_text::"$(find . -type f -path './build/reports/ktlint/*.xml' | xargs cat)"
