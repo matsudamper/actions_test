@@ -10,7 +10,7 @@ System.err.println("======================")
 System.err.println(System.getenv("DIFF"))
 System.getenv().forEach {
     System.err.println("======================")
-    System.err.println("${it.key} == ${it.value}")
+    System.err.println("${it.key}:${it.value::class} = ${it.value}")
 }
 
 val diffResult = Runtime.getRuntime().exec(
