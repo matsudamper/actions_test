@@ -68,3 +68,5 @@ jobs:
           output: |
             title: Summary
             summary: "HTML"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
