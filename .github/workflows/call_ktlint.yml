@@ -5,8 +5,6 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
-    env:
-      SHA: ${{ (github.event.pull_request.head.sha != null && github.event.pull_request.head.sha) || github.sha }}
     outputs:
       diff: ${{ steps.vars.outputs.diff }}
       xml_text: ${{ steps.vars.outputs.xml_text }}
@@ -38,6 +36,7 @@ jobs:
     if: failure()
     runs-on: ubuntu-latest
     env:
+      SHA: ${{ (github.event.pull_request.head.sha != null && github.event.pull_request.head.sha) || github.sha }}
       DIFF: ${{ needs.main.outputs.diff }}
       XML_TEXT: ${{ needs.main.outputs.xml_text }}
     steps:
