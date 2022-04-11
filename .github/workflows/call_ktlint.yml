@@ -38,10 +38,19 @@ jobs:
     if: failure()
     runs-on: ubuntu-latest
     env:
-      DIFF: ${{ needs.main.vars.outputs.diff }}
-      XML_TEXT: ${{ needs.main.vars.outputs.xml_text }}
+      DIFF: ${{ needs.main.outputs.diff }}
+      XML_TEXT: ${{ needs.main.outputs.xml_text }}
     steps:
       - uses: actions/checkout@v3
+      - name: tmp
+        run: |
+          echo '====='
+          echo '${{ env }}'
+          echo '====='
+          echo '${{ toJson(env) }}'
+          
+          echo '====='
+          echo '${{ toJson(needs.main) }}'
       - name: Cache main.kts
         uses: actions/cache@v3
         with:
