@@ -44,8 +44,8 @@ jobs:
           repo: ${{ github.event.repository.name }}
           name: ktlint
           head_sha: ${{ github.sha }}
-          conclusion: "completed"
-          status: "failure"
+          conclusion: "failure"
+          status: "completed"
           annotations: ${{ toJson(steps.vars.outputs.annotations) }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
