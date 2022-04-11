@@ -25,7 +25,7 @@ jobs:
         if: ${{ failure() }}
         id: vars
         run: |
-          result=$(.github/workflows/script/diff_annotations.kts)
+          result=$(.github/workflows/script/diff_annotations.main.kts)
           echo $result
           echo ::set-output name=annotations::$result
       - name: ktlint check-runs
