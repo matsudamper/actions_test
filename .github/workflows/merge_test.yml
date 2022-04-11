@@ -26,21 +26,23 @@ jobs:
           EOS
           )
           echo "::set-output name=date::$(date --iso-8601=seconds)"
+          date --iso-8601=seconds
+          echo ${{ github.sha }}
       - uses: octokit/request-action@v2.x
         if: always()
         with:
           route: POST /repos/{owner}/{repo}/check-runs
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
-          name: "Result Dashboard"
+          name: Result Dashboard
           head_sha: ${{ github.sha }}
-#          conclusion: "failure"
-#          status: "completed"
-#          started_at: ${{ steps.vars.outputs.date }}
-#          output: |
-#            title: "Result Dashboard"
-#            summary: "hogehoge"
-#            ${{ steps.vars.outputs.html }}
+          started_at: ${{ steps.vars.outputs.date }}
+        #          conclusion: "failure"
+        #          status: "completed"
+        #          output: |
+        #            title: "Result Dashboard"
+        #            summary: "hogehoge"
+        #            ${{ steps.vars.outputs.html }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: LouisBrunner/checks-action@v1.1.1
