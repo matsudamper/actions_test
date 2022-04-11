@@ -42,7 +42,7 @@ jobs:
           route: POST /repos/{owner}/{repo}/check-runs
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
-          name: ktlint
+          name: "ktlint check-runs"
           head_sha: ${{ github.sha }}
           conclusion: "failure"
           status: "completed"
