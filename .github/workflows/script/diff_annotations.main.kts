@@ -69,7 +69,7 @@ val result = indexList.zip(indexList.drop(1).plus(diffResult.size)).map {
     codeGroupIndex.zip(codeGroupIndex.drop(1).plus(body.size)).map {
         body.subList(it.first, it.second)
     }.map {
-        val matchResult = """^@@ -(\d+),?(\d+)? \+(\d+),?(\d+)? @@""".toRegex().find(it[0])!!
+        val matchResult = """^@@ -(\d+),?(\d+)? \+(\d+),?(\d+)? @@ (.+)$""".toRegex().find(it[0])!!
         val startIndex = matchResult.groups[1]!!.value.toInt()
         val count = matchResult.groups[2]?.value?.toInt() ?: 0
         Annotation(
@@ -77,7 +77,10 @@ val result = indexList.zip(indexList.drop(1).plus(diffResult.size)).map {
             start_line = startIndex,
             end_line = startIndex + count,
             annotation_level = "failure",
-            message = body.joinToString("\n"),
+            message = buildList {
+                add(matchResult.groups[5])
+                add(it.drop(1))
+            }.joinToString("\n"),
         )
     }
 }
