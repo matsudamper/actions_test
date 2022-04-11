@@ -25,6 +25,7 @@ jobs:
         if: ${{ failure() }}
         id: vars
         run: |
+          mkdir -p /tmp/artifact
           git diff -U0 1> /tmp/artifact/diff.txt
           find . -type f -path './build/reports/ktlint/*.xml' | xargs cat > /tmp/artifact/lint-xml.txt
       - uses: actions/upload-artifact@v3
