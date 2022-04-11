@@ -48,7 +48,7 @@ jobs:
           status: "completed"
           output: |
             title: "Kotlint"
-            summary: "Summary"
+            summary: ${{ toJson(steps.vars.outputs.annotations) }}
             annotations: ${{ steps.vars.outputs.annotations }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
