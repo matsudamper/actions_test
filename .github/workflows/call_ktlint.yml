@@ -75,6 +75,7 @@ jobs:
           status: "completed"
           output: |
             title: "Ktlint"
+            summary: "Summary"
             annotations: ${{ steps.annotations.outputs.value }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
