@@ -35,7 +35,6 @@ jobs:
           name: "Result Dashboard"
           head_sha: ${{ github.sha }}
           conclusion: "success"
-          status: "completed"
           started_at: ${{ steps.vars.outputs.date }}
           output: |
             title: "Summary"
