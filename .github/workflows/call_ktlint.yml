@@ -30,6 +30,7 @@ jobs:
         run: |
           echo ::set-output name=diff::$(git diff -U0)
           echo ::set-output name=xml_text::$(find . -type f -path './build/reports/ktlint/*.xml' | xargs cat)
+          echo '${{ steps.vars.outputs.diff }}'
 
   check-runs:
     needs: [ main ]
