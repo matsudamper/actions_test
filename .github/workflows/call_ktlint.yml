@@ -1,8 +1,7 @@
 name: ktlintCheck
 on:
   workflow_call:
-permissions:
-  contents: read
+
 jobs:
   main:
     runs-on: ubuntu-latest
