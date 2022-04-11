@@ -25,6 +25,7 @@ jobs:
           </table>
           EOS
           )
+          echo "::set-output name=date::$(date --iso-8601=seconds)"
       - uses: octokit/request-action@v2.x
         id: create_check_run
         with:
@@ -35,7 +36,7 @@ jobs:
           head_sha: ${{ github.sha }}
           conclusion: "success"
           status: "completed"
-          external_id: "tmp"
+          started_at: ${{ steps.vars.outputs.date }}
           output: |
             title: Summary
             summary: ${{ steps.vars.outputs.html }}
