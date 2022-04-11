@@ -85,4 +85,10 @@ val result = indexList.zip(indexList.drop(1).plus(diffResult.size)).map {
     }
 }
 
+result.flatten().forEach {
+    println("=====${it.path}=====")
+    println("${it.start_line}-${it.end_line}")
+    println(it.message)
+}
+
 println(Gson().toJson(result.flatten()))

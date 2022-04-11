@@ -23,23 +23,31 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: ktlintFormat
+      - name: set output
+        id: vars
+        run: |
+          echo ::set-output name=diff::$(git diff)
+          echo ::set-output name=xml_text::$(find . -type f -path './build/reports/ktlint/*.xml' | xargs cat)
 
   check-runs:
-    needs: [main]
+    needs: [ main ]
     if: failure()
     runs-on: ubuntu-latest
+    env:
+      DIFF: ${{ needs.main.vars.outputs.diff }}
+      XML_TEXT: ${{ needs.main.vars.outputs.xml_text }}
     steps:
+      - uses: actions/checkout@v3
       - name: Cache main.kts
         uses: actions/cache@v3
         with:
           path: |
             ~/.cache/main.kts.compiled.cache
           key: ${{ hashFiles('**/*.main.kts') }}
-      - name: set
+      - name: set output
         id: vars
         run: |
-          echo ::set-output name=annotations::$(.github/workflows/script/diff_annotations.main.kts)
-          echo ::set-output name=xml::$(find . -type f -path './build/reports/ktlint/*.xml' | xargs cat)
+          echo ::set-output name=annotations::$(${{ env.DIFF }})
       - name: ktlint check-runs
         uses: octokit/request-action@v2.x
         id: create_check_run
@@ -53,7 +61,7 @@ jobs:
           status: "completed"
           output: |
             title: "Ktlint"
-            summary: ${{ toJson(steps.vars.outputs.annotations) }}
-            annotations: ${{ steps.vars.outputs.annotations }}
+            summary: ${{ toJson(needs.main.vars.outputs.annotations) }}
+            annotations: ${{ needs.main.vars.outputs.annotations }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
