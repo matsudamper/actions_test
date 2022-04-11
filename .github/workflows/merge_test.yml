@@ -35,6 +35,7 @@ jobs:
           head_sha: ${{ github.sha }}
           conclusion: "success"
           status: "completed"
+          external_id: "tmp"
           output: |
             title: Summary
             summary: ${{ steps.vars.outputs.html }}
