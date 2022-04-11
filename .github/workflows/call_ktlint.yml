@@ -51,6 +51,8 @@ jobs:
       - name: create annotations
         id: annotations
         run: |
+          echo '${{ needs.main.outputs.diff }}'
+          echo '======'
           echo ::set-output name=value::$(./.github/workflows/script/diff_annotations.main.kts)
       - name: ktlint check-runs
         uses: octokit/request-action@v2.x
