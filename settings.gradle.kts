@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "actions_test"
 include(":app")
+include(":module")
