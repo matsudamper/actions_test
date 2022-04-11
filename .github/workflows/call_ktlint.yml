@@ -48,8 +48,6 @@ jobs:
             ~/.cache/main.kts.compiled.cache
           key: ${{ hashFiles('**/*.main.kts') }}
       - name: annotations
-        env:
-          DIFF: ${{ toJson(env.DIFF) }}
         run: |
           echo ::set-output name=value::$(./.github/workflows/script/diff_annotations.main.kts)
       - name: ktlint check-runs
