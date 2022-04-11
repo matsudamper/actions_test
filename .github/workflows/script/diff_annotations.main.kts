@@ -5,7 +5,7 @@
 
 import com.google.gson.Gson
 
-val diffResult = System.getenv("DIFF").split("\n")
+val diffResult = args[0].split("\n")
 System.err.println("DIFF -> $diffResult")
 
 val indexList: List<Int> = buildList {
@@ -67,4 +67,3 @@ val result = indexList.zip(indexList.drop(1).plus(diffResult.size)).map {
 }
 
 println(Gson().toJson(result.flatten()))
-
