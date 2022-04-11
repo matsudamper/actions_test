@@ -17,7 +17,7 @@ allprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-        debug.set(true)
+        debug.set(false)
         version.set("0.45.2")
         verbose.set(false)
         android.set(true)
