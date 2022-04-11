@@ -46,6 +46,11 @@ jobs:
         with:
           name: main-artifact
           path: /tmp/artifact/
+      - name: expand
+        run: |
+          ls -al /tmp/artifact/
+          cd /tmp/artifact/
+          find .
       - name: Cache main.kts
         uses: actions/cache@v3
         with:
