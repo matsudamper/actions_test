@@ -27,7 +27,7 @@ jobs:
           )
           echo "::set-output name=date::$(date --iso-8601=seconds)"
           date --iso-8601=seconds
-          echo ${{ toJson(github) }}
+          echo '${{ toJson(github) }}'
       - uses: octokit/request-action@v2.x
         id: create_check_run_kotlint
         if: always()
