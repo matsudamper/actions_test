@@ -13,7 +13,7 @@ import net.matsudamper.module.databinding.ActivitySubBinding
 
 class SubActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
+     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivitySubBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
