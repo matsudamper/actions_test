@@ -5,6 +5,8 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
+    env:
+      SHA: ${{ (github.event.pull_request.head.sha != null && github.event.pull_request.head.sha) || github.sha }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -45,30 +47,12 @@ jobs:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
           name: "ktlint check-runs"
-          head_sha: ${{ github.sha }}
+          head_sha: ${{ env.SHA }}
           conclusion: "failure"
           status: "completed"
           output: |
             title: "Kotlint"
             summary: ${{ toJson(steps.vars.outputs.annotations) }}
             annotations: ${{ steps.vars.outputs.annotations }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  sub:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: octokit/request-action@v2.x
-        id: create_check_run
-        with:
-          route: POST /repos/{owner}/{repo}/check-runs
-          owner: ${{ github.repository_owner }}
-          repo: ${{ github.event.repository.name }}
-          name: "Result Dashboard"
-          head_sha: ${{ github.sha }}
-          conclusion: "success"
-          status: "completed"
-          output: |
-            title: Summary
-            summary: "HTML"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
