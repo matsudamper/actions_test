@@ -27,9 +27,7 @@ jobs:
         if: ${{ failure() }}
         id: vars
         run: |
-          result=$(.github/workflows/script/diff_annotations.main.kts)
-          echo $result
-          echo ::set-output name=annotations::$result
+          echo ::set-output name=annotations::$(.github/workflows/script/diff_annotations.main.kts)
       - name: print
         if: ${{ failure() }}
         run: |
