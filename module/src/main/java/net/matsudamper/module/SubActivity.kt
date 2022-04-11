@@ -1,19 +1,19 @@
 package net.matsudamper.module
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
+import com.google.android.material.snackbar.Snackbar
 import net.matsudamper.module.databinding.ActivitySubBinding
 
 class SubActivity : AppCompatActivity() {
 
-     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivitySubBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,9 +30,9 @@ class SubActivity : AppCompatActivity() {
 
         binding.fab.setOnClickListener { view ->
             Snackbar.make(
-            view,
-            "Replace with your own action",
-            Snackbar.LENGTH_LONG
+                view,
+                "Replace with your own action",
+                Snackbar.LENGTH_LONG
             )
                 .setAction("Action", null).show()
         }
@@ -56,7 +56,7 @@ class SubActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_sub)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+        return navController.navigateUp(appBarConfiguration) ||
+            super.onSupportNavigateUp()
     }
 }
