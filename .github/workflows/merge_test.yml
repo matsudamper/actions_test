@@ -34,7 +34,8 @@ jobs:
           repo: ${{ github.event.repository.name }}
           name: "Result Dashboard"
           head_sha: ${{ github.sha }}
-          conclusion: "success"
+          conclusion: "failure"
+          status: "completed"
           started_at: ${{ steps.vars.outputs.date }}
           output: |
             title: "Result Dashboard"
