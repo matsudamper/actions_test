@@ -27,8 +27,8 @@ jobs:
           )
           echo "::set-output name=date::$(date --iso-8601=seconds)"
           date --iso-8601=seconds
-          echo '${{ event.pull_request.head.sha }}'
-          echo '${{ event.sha }}'
+          echo '${{ github.event.pull_request.head.sha }}'
+          echo '${{ github.event.sha }}'
       - uses: octokit/request-action@v2.x
         id: create_check_run_kotlint
         if: always()
@@ -37,7 +37,7 @@ jobs:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
           name: Result Dashboard
-          head_sha: ${{ event.pull_request.head.sha }}
+          head_sha: ${{ github.event.pull_request.head.sha }}
           started_at: ${{ steps.vars.outputs.date }}
           conclusion: "failure"
           status: "completed"
