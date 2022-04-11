@@ -28,8 +28,17 @@ jobs:
         if: ${{ failure() }}
         id: vars
         run: |
+          export DIFF = 
+          echo ::set-output name=diff_json::${{ toJson(env.DIFF) }}
           echo ::set-output name=diff::"$(git diff -U0)"
           echo ::set-output name=xml_text::"$(find . -type f -path './build/reports/ktlint/*.xml' | xargs cat)"
+      - name: get output
+        if: ${{ failure() }}
+        run: |
+          echo "${{ steps.vars.outputs.diff_json }}"
+          echo "${{ steps.vars.outputs.diff }}"
+          
+          echo '${{ steps.vars.outputs.diff_json }}'
           echo '${{ steps.vars.outputs.diff }}'
 
   check-runs:
@@ -51,7 +60,7 @@ jobs:
       - name: create annotations
         id: annotations
         run: |
-          echo '${{ needs.main.outputs.diff }}'
+          echo "${{ needs.main.outputs.diff }}"
           echo '======'
           echo ::set-output name=value::$(./.github/workflows/script/diff_annotations.main.kts)
       - name: ktlint check-runs
