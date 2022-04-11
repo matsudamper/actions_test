@@ -8,8 +8,8 @@ jobs:
     env:
       SHA: ${{ (github.event.pull_request.head.sha != null && github.event.pull_request.head.sha) || github.sha }}
     outputs:
-      output1: ${{ steps.vars.outputs.diff }}
-      output2: ${{ steps.vars.outputs.xml_text }}
+      diff: ${{ steps.vars.outputs.diff }}
+      xml_text: ${{ steps.vars.outputs.xml_text }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
