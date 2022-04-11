@@ -27,7 +27,7 @@ jobs:
           )
           echo "::set-output name=date::$(date --iso-8601=seconds)"
       - uses: octokit/request-action@v2.x
-        id: create_check_run
+        if: always()
         with:
           route: POST /repos/{owner}/{repo}/check-runs
           owner: ${{ github.repository_owner }}
@@ -37,7 +37,7 @@ jobs:
           conclusion: "success"
           started_at: ${{ steps.vars.outputs.date }}
           output: |
-            title: "Summary"
+            title: "Result Dashboard"
             summary: "hogehoge"
 #            ${{ steps.vars.outputs.html }}
         env:
