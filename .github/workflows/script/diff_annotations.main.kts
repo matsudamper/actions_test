@@ -79,7 +79,7 @@ val result = indexList.zip(indexList.drop(1).plus(diffResult.size)).map {
             annotation_level = "failure",
             message = buildList {
                 add(matchResult.groups[5])
-                add(it.drop(1))
+                addAll(it.drop(1))
             }.joinToString("\n"),
         )
     }
