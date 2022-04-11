@@ -25,7 +25,9 @@ jobs:
         if: ${{ failure() }}
         id: vars
         run: |
-          echo ::set-output name=annotations::$(.github/workflows/script/diff_annotations.kts)
+          result=$(.github/workflows/script/diff_annotations.kts)
+          echo $result
+          echo ::set-output name=annotations::$result
       - name: ktlint check-runs
         if: ${{ failure() }}
         uses: octokit/request-action@v2.x
