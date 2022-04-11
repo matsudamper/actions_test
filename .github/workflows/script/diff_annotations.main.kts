@@ -67,8 +67,6 @@ val result = indexList.zip(indexList.drop(1).plus(diffResult.size)).map {
     @Suppress("*")
     val filePath = it[2].drop("--- a/".length)
     val body = it.drop(4)
-    System.err.println("body==============")
-    System.err.println(body)
     val codeGroupIndex = buildList {
         body.mapIndexed { index, it ->
             val matchResult = """^@@ -(\d+),?(\d+)? \+(\d+),?(\d+)? @@""".toRegex().find(it)
@@ -91,6 +89,11 @@ val result = indexList.zip(indexList.drop(1).plus(diffResult.size)).map {
             message = body.joinToString("\n"),
         )
     }
+}
+
+result.flatten().forEach {
+    System.err.println("body==============")
+    System.err.println(it.message)
 }
 
 Gson().toJson(result.flatten())
