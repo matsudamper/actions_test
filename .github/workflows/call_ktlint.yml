@@ -24,9 +24,10 @@ jobs:
         with:
           arguments: ktlintFormat
       - name: set output
+        if: ${{ failure() }}
         id: vars
         run: |
-          echo ::set-output name=diff::$(git diff)
+          echo ::set-output name=diff::$(git diff -U0)
           echo ::set-output name=xml_text::$(find . -type f -path './build/reports/ktlint/*.xml' | xargs cat)
 
   check-runs:
@@ -47,6 +48,10 @@ jobs:
       - name: set output
         id: vars
         run: |
+          echo "====="
+          echo ${{ toJson(env.DIFF) }}
+          echo "====="
+          echo ${{ env.DIFF }}
           echo ::set-output name=annotations::$(${{ env.DIFF }})
       - name: ktlint check-runs
         uses: octokit/request-action@v2.x
