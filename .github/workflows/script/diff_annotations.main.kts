@@ -78,7 +78,7 @@ val result = indexList.zip(indexList.drop(1).plus(diffResult.size)).map {
             end_line = startIndex + count,
             annotation_level = "failure",
             message = buildList {
-                add(matchResult.groups[5])
+                add(matchResult.groups[5]!!.value)
                 addAll(it.drop(1))
             }.joinToString("\n"),
         )
