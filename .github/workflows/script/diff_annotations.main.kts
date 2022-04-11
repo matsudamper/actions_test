@@ -6,6 +6,13 @@
 import java.io.File
 import com.google.gson.Gson
 
+System.err.println("======================")
+System.err.println(System.getenv("DIFF"))
+System.getenv().forEach {
+    System.err.println("======================")
+    System.err.println("${it.key} == ${it.value}")
+}
+
 val diffResult = Runtime.getRuntime().exec(
     "git diff -U0",
     null,

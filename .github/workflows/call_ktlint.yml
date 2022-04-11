@@ -48,13 +48,9 @@ jobs:
           path: |
             ~/.cache/main.kts.compiled.cache
           key: ${{ hashFiles('**/*.main.kts') }}
-      - name: set output
-        id: vars
+      - name: annotations
         run: |
-          echo "====="
-          echo '${{ toJson(needs) }}'
-          echo "====="
-          echo ::set-output name=annotations::$(${{ env.DIFF }})
+          echo ::set-output name=value::$(./.github/workflows/script/diff_annotations.main.kts)
       - name: ktlint check-runs
         uses: octokit/request-action@v2.x
         id: create_check_run
@@ -68,7 +64,7 @@ jobs:
           status: "completed"
           output: |
             title: "Ktlint"
-            summary: ${{ toJson(needs.main.vars.outputs.annotations) }}
-            annotations: ${{ needs.main.vars.outputs.annotations }}
+            summary: ${{ toJson(steps.annotations.value) }}
+            annotations: ${{ steps.annotations.value }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
