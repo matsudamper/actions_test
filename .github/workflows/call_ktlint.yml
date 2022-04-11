@@ -49,9 +49,12 @@ jobs:
         id: vars
         run: |
           echo "====="
-          echo ${{ toJson(env.DIFF) }}
+          echo ${{ toJson(needs) }}
           echo "====="
-          echo ${{ env.DIFF }}
+          echo ${{ needs }}
+          echo "====="
+          echo ${{ toJson(needs.main) }}
+          echo "====="
           echo ::set-output name=annotations::$(${{ env.DIFF }})
       - name: ktlint check-runs
         uses: octokit/request-action@v2.x
