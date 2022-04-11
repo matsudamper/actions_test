@@ -6,15 +6,6 @@
 import java.io.File
 import com.google.gson.Gson
 
-val commentUrl = System.getenv("COMMENT_URL")
-val githubToken = System.getenv("GITHUB_TOKEN")
-val githubOwner = System.getenv("GITHUB_REPOSITORY_OWNER")
-val githubServerUrl = System.getenv("GITHUB_SERVER_URL")
-val githubRepository = System.getenv("GITHUB_REPOSITORY")
-
-
-val currentBranchName = System.getenv("GITHUB_HEAD_REF")
-
 val diffResult = Runtime.getRuntime().exec(
     "git diff -U0",
     null,
