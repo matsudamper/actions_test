@@ -39,7 +39,8 @@ jobs:
           started_at: ${{ steps.vars.outputs.date }}
           output: |
             title: "Summary"
-            summary: ${{ steps.vars.outputs.html }}
+            summary: "hogehoge"
+#            ${{ steps.vars.outputs.html }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: LouisBrunner/checks-action@v1.1.1
