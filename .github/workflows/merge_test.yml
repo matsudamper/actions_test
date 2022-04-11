@@ -12,6 +12,8 @@ jobs:
     uses: ./.github/workflows/call_ktlint.yml
   tmp:
     runs-on: ubuntu-latest
+    env:
+      SHA: ${{ (github.event.pull_request.head.sha != null && github.event.pull_request.head.sha) || github.sha }}
     steps:
       - name: set
         id: vars
@@ -37,7 +39,7 @@ jobs:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
           name: Result Dashboard
-          head_sha: ${{ github.event.pull_request.head.sha }}
+          head_sha: ${{ env.SHA }}
           started_at: ${{ steps.vars.outputs.date }}
           conclusion: "failure"
           status: "completed"
@@ -46,11 +48,3 @@ jobs:
             summary: ${{ steps.vars.outputs.html }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: LouisBrunner/checks-action@v1.1.1
-        if: always()
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: Test XYZ
-          conclusion: ${{ job.status }}
-          output: |
-            {"summary": "hogehoge" }
