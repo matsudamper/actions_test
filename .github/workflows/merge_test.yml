@@ -13,7 +13,28 @@ jobs:
   tmp:
     runs-on: ubuntu-latest
     steps:
-      - name: print
+      - name: set
+        id: vars
         run: |
-          echo "===sha==="
-          echo ${{ github.sha }}
+          echo ::set-output name=html::$(cat << EOS
+          <table>
+          <tr>
+          <td>Firebase Version</td>
+          <td>hogehoge</td>
+          </tr>
+          </table>
+          EOS
+          )
+      - uses: octokit/request-action@v2.x
+        id: create_check_run
+        with:
+          route: POST /repos/{owner}/{repo}/check-runs
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          name: "Result Dashboard"
+          head_sha: ${{ github.sha }}
+          conclusion: "success"
+          status: "completed"
+          output: |
+            title: Summary
+            summary: ${{ steps.vars.outputs.html }}
