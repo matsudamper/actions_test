@@ -42,15 +42,6 @@ jobs:
       XML_TEXT: ${{ needs.main.outputs.xml_text }}
     steps:
       - uses: actions/checkout@v3
-      - name: tmp
-        run: |
-          echo '====='
-          echo '${{ env }}'
-          echo '====='
-          echo '${{ toJson(env) }}'
-          
-          echo '====='
-          echo '${{ toJson(needs.main) }}'
       - name: Cache main.kts
         uses: actions/cache@v3
         with:
@@ -60,7 +51,7 @@ jobs:
       - name: annotations
         env:
           DIFF: ${{ toJson(env.DIFF) }}
-          XML_TEXT: ${{ toJson(env.XML_TEXT) }}
+          DIFF2: ${{ env.DIFF }}
         run: |
           echo ::set-output name=value::$(./.github/workflows/script/diff_annotations.main.kts)
       - name: ktlint check-runs
@@ -76,7 +67,7 @@ jobs:
           status: "completed"
           output: |
             title: "Ktlint"
-            summary: ${{ toJson(steps.annotations.value) }}
+            summary: ${{ env.XML_TEXT }}
             annotations: ${{ steps.annotations.value }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
