@@ -6,7 +6,6 @@
 import java.io.File
 import com.google.gson.Gson
 
-
 val commentUrl = System.getenv("COMMENT_URL")
 val githubToken = System.getenv("GITHUB_TOKEN")
 val githubOwner = System.getenv("GITHUB_REPOSITORY_OWNER")
@@ -17,7 +16,7 @@ val githubRepository = System.getenv("GITHUB_REPOSITORY")
 val currentBranchName = System.getenv("GITHUB_HEAD_REF")
 
 val diffResult = Runtime.getRuntime().exec(
-    "git diff",
+    "git diff -U0",
     null,
     File(".")
 ).let { process ->
@@ -32,7 +31,6 @@ val diffResult = Runtime.getRuntime().exec(
     process.inputStream.use { stream ->
         stream.bufferedReader().use { reader ->
             reader.lineSequence()
-                .onEach { println(it) }
                 .toList()
         }
     }
@@ -54,15 +52,43 @@ val indexList: List<Int> = buildList {
         }
     }
 }
-indexList.zip(indexList.drop(1).plus(diffResult.size)).map {
-    diffResult.subList(it.first, it.second)
-}.forEach {
-    println("========it========")
-    println(it)
-}
 
 data class Annotation(
-    val path: String
+    val path: String,
+    val start_line: Int,
+    val end_line: Int,
+    val annotation_level: String,
+    val message: String,
 )
 
-println(Gson().toJson(Annotation("")))
+val result = indexList.zip(indexList.drop(1).plus(diffResult.size)).map {
+    diffResult.subList(it.first, it.second)
+}.map {
+    @Suppress("*")
+    val filePath = it[2].drop("--- a/".length)
+    val body = it.drop(4)
+    val codeGroupIndex = buildList {
+        body.mapIndexed { index, it ->
+            val matchResult = """^@@ -(\d+),?(\d+)? \+(\d+),?(\d+)? @@""".toRegex().find(it)
+            if (matchResult != null) {
+                add(index)
+            }
+        }
+    }
+    codeGroupIndex.zip(codeGroupIndex.drop(1).plus(body.size)).map {
+        body.subList(it.first, it.second)
+    }.map {
+        val matchResult = """^@@ -(\d+),?(\d+)? \+(\d+),?(\d+)? @@""".toRegex().find(it[0])!!
+        val startIndex = matchResult.groups[1]!!.value.toInt()
+        val count = matchResult.groups[2]?.value?.toInt() ?: 0
+        Annotation(
+            path = filePath,
+            start_line = startIndex,
+            end_line = startIndex + count,
+            annotation_level = "failure",
+            message = body.joinToString("\n"),
+        )
+    }
+}
+
+Gson().toJson(result.flatten())

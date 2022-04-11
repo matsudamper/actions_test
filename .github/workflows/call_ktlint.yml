@@ -16,21 +16,19 @@ jobs:
       - name: ktlintCheck
         uses: gradle/gradle-build-action@v2
         with:
+          arguments: ktlintCheck
+      - name: ktlintFormat
+        if: ${{ failure() }}
+        uses: gradle/gradle-build-action@v2
+        with:
           arguments: ktlintFormat
       - name: set
+        if: ${{ failure() }}
         id: vars
         run: |
-          echo ::set-output name=html::$(cat << EOS
-          [
-            {
-              "path": "",
-              "start_line": "",
-              "end_line": ""
-            }
-          ]
-          EOS
-          )
+          echo ::set-output name=annotations::$(.github/workflows/script/diff_annotations.kts)
       - name: ktlint check-runs
+        if: ${{ failure() }}
         uses: octokit/request-action@v2.x
         id: create_check_run
         with:
@@ -40,7 +38,5 @@ jobs:
           name: ktlint
           head_sha: ${{ github.sha }}
           conclusion: "success"
-          status: "completed"
-          output: |
-            title: Summary
-            summary: ${{ steps.vars.outputs.html }}
+          status: "failure"
+          annotations: ${{ steps.vars.outputs.annotations }}
