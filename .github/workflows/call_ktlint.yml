@@ -27,7 +27,9 @@ jobs:
         run: |
           mkdir -p /tmp/artifact
           git diff -U0 1> /tmp/artifact/diff.txt
-          find . -type f -path './build/reports/ktlint/*.xml' | xargs cat > /tmp/artifact/lint-xml.txt
+          foreach file (find . -type f -path './build/reports/ktlint/*.xml')
+            cat file > /tmp/artifact/lint-xml.txt
+          end
       - uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
@@ -56,26 +58,25 @@ jobs:
         id: annotations
         run: |
           RESULT=$(./.github/workflows/script/diff_annotations.main.kts "$(cat /tmp/artifact/diff.txt)")
-          echo "=================="
-          echo "$RESULT"
-          echo "=================="
-          echo "$(echo $RESULT)"
-          echo "=================="
           echo ::set-output name=value::"$(echo $RESULT)"
-      - name: ktlint check-runs
+      - name: ktlint check-runs Result
         uses: octokit/request-action@v2.x
         id: create_check_run
         with:
           route: POST /repos/{owner}/{repo}/check-runs
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
-          name: "ktlint check-runs"
+          name: "ktlint check-runs Result"
           head_sha: ${{ env.SHA }}
           conclusion: "failure"
           status: "completed"
           output: |
             title: "Ktlint"
-            summary: "Summary"
+            summary: |
+              <details>
+              <summary>retult.xml</summary>
+                
+              </details>
             annotations: ${{ steps.annotations.outputs.value }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

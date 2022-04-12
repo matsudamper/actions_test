@@ -6,7 +6,6 @@
 import com.google.gson.Gson
 
 val diffResult = args[0].split("\n")
-System.err.println("DIFF -> $diffResult")
 
 val indexList: List<Int> = buildList {
     val resultIndexList = this
