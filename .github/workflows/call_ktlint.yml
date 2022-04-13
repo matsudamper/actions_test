@@ -27,7 +27,7 @@ jobs:
         run: |
           mkdir -p /tmp/artifact
           git diff -U0 1> /tmp/artifact/diff.txt
-          for n in $(find . -type f -path './build/reports/ktlint/*.xml'); do
+          for file in $(find . -type f -path './build/reports/ktlint/*.xml'); do
             cat $file >> /tmp/artifact/lint-xml.txt
           done
       - uses: actions/upload-artifact@v3
