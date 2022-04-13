@@ -61,7 +61,7 @@ jobs:
         id: annotations
         run: |
           RESULT=$(./.github/workflows/script/diff_annotations.main.kts "$(cat /tmp/artifact/diff.txt)")
-          ./.github/workflows/script/ktlint_xml_sumarry.main.kts
+          ./.github/workflows/script/ktlint_xml_sumarry.main.kts /tmp/artifact/lint-xml.txt
           cat $KTLINT_SUMMARY
       - name: ktlint check-runs Result
         uses: octokit/request-action@v2.x
