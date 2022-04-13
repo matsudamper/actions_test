@@ -27,10 +27,9 @@ jobs:
         run: |
           mkdir -p /tmp/artifact
           git diff -U0 1> /tmp/artifact/diff.txt
-          foreach file $(find . -type f -path './build/reports/ktlint/*.xml')
-            echo $file
+          for n in $(find . -type f -path './build/reports/ktlint/*.xml'); do
             cat $file >> /tmp/artifact/lint-xml.txt
-          end
+          done
       - uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
