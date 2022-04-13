@@ -65,6 +65,8 @@ jobs:
           
           echo "==============="
           echo $KTLINT_SUMMARY
+          echo "==============="
+          cat $GITHUB_ENV
       - name: ktlint check-runs Result
         uses: octokit/request-action@v2.x
         id: create_check_run

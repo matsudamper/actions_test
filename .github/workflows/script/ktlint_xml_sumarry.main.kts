@@ -15,4 +15,9 @@ ${File(filename).readText()}
 ```
 EOF
 """.trimIndent()
+
+
+File(System.getenv("GITHUB_ENV")).writeText(
+    result
+)
 println(result)
