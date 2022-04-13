@@ -35,7 +35,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
-          name: main-artifact
+          name: lint-artifact
           path: /tmp/artifact/*
 
   check-runs:
@@ -44,11 +44,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHA: ${{ (github.event.pull_request.head.sha != null && github.event.pull_request.head.sha) || github.sha }}
+      TMP: ""
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
         with:
-          name: main-artifact
+          name: lint-artifact
           path: /tmp/artifact/
       - name: Cache main.kts
         uses: actions/cache@v3
@@ -61,6 +62,11 @@ jobs:
         run: |
           RESULT=$(./.github/workflows/script/diff_annotations.main.kts "$(cat /tmp/artifact/diff.txt)")
           echo ::set-output name=value::"$(echo $RESULT)"
+          export TMP="hogehoge"
+          echo "$TMP"
+      - name: tmp
+        run: |
+          echo "$TMP"
       - name: ktlint check-runs Result
         uses: octokit/request-action@v2.x
         id: create_check_run
