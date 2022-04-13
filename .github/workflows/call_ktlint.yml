@@ -64,8 +64,13 @@ jobs:
           echo ::set-output name=value::"$(echo $RESULT)"
       - name: tmp
         run: |
-          echo $GITHUB_ENV
+          cat "TMP=" >> $GITHUB_ENV
+          echo "$(cat /tmp/artifact/lint-xml.txt)" >> $GITHUB_ENV
+      - name: tmp2
+        run: |
           cat $GITHUB_ENV
+          echo "=========="
+          echo ${{ env.TMP }}
       - name: ktlint check-runs Result
         uses: octokit/request-action@v2.x
         id: create_check_run
