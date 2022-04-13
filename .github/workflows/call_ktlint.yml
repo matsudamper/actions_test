@@ -62,11 +62,10 @@ jobs:
         run: |
           RESULT=$(./.github/workflows/script/diff_annotations.main.kts "$(cat /tmp/artifact/diff.txt)")
           echo ::set-output name=value::"$(echo $RESULT)"
-          export TMP="hogehoge"
-          echo "$TMP"
       - name: tmp
         run: |
-          echo "$TMP"
+          echo $GITHUB_ENV
+          cat $GITHUB_ENV
       - name: ktlint check-runs Result
         uses: octokit/request-action@v2.x
         id: create_check_run
