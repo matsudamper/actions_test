@@ -64,8 +64,9 @@ jobs:
           echo ::set-output name=value::"$(echo $RESULT)"
       - name: tmp
         run: |
-          echo "TMP=" >> $GITHUB_ENV
+          echo "TMP<<EOF" >> $GITHUB_ENV
           echo "$(cat /tmp/artifact/lint-xml.txt)" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
       - name: tmp2
         run: |
           cat $GITHUB_ENV
