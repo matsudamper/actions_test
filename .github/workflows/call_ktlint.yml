@@ -62,16 +62,10 @@ jobs:
         run: |
           RESULT=$(./.github/workflows/script/diff_annotations.main.kts "$(cat /tmp/artifact/diff.txt)")
           echo ::set-output name=value::"$(echo $RESULT)"
-      - name: tmp
-        run: |
+          
           echo "TMP<<EOF" >> $GITHUB_ENV
           echo "$(cat /tmp/artifact/lint-xml.txt)" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
-      - name: tmp2
-        run: |
-          cat $GITHUB_ENV
-          echo "=========="
-          echo ${{ env.TMP }}
       - name: ktlint check-runs Result
         uses: octokit/request-action@v2.x
         id: create_check_run
@@ -88,7 +82,10 @@ jobs:
             summary: |
               <details>
               <summary>retult.xml</summary>
-                
+              
+              ```xml
+              ${{ env.TMP }}
+              ```
               </details>
             annotations: ${{ steps.annotations.outputs.value }}
         env:
