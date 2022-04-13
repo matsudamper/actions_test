@@ -10,6 +10,13 @@ on:
         type: boolean
 
 jobs:
+  dispatch_only:
+    if: ${{ !github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "test"
+        run: |
+          echo "test"
   main:
     runs-on: ubuntu-latest
     steps:
