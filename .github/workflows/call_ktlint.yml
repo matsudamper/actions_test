@@ -29,7 +29,8 @@ jobs:
           git diff -U0 1> /tmp/artifact/diff.txt
           for file in $(find . -type f -path './build/reports/ktlint/*.xml'); do
             echo $file
-            cat $file >> /tmp/artifact/lint-xml.txt
+            echo "$file"
+            cat "$file" >> /tmp/artifact/lint-xml.txt
           done
       - uses: actions/upload-artifact@v3
         if: ${{ failure() }}
