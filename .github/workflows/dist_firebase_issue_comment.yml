@@ -17,4 +17,4 @@ jobs:
           echo "${{ github.event.issue.comments_url }}"
           echo "${{ github.event.pull_request.comments_url }}"
           echo "github.event"
-          echo `${{ toJson(github.event) }}`
+          echo "${{ toJson(github.event) }}"
