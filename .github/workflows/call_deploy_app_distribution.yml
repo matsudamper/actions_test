@@ -4,7 +4,7 @@ on:
     inputs:
       BRANCH_NAME:
         default: 'develop'
-        required: false
+        required: true
         type: string
 
 jobs:
