@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       BRANCH_NAME: ${{ fromJSON(steps.pull_request.outputs.data).head.ref }}
-      FEATURE1: ${{ env.FEATURE1 }}
+      FEATURE1: ${{ fromJson(env.FEATURE1) }}
     steps:
       - uses: actions/github-script@v6
         env:
@@ -52,3 +52,4 @@ jobs:
     with:
       BRANCH_NAME: ${{ needs.get_info.outputs.BRANCH_NAME }}
       COMMENT_URL: ${{ github.event.issue.issue_comment_url }}
+      FEATURE1: ${{ needs.get_info.outputs.FEATURE1 }}
