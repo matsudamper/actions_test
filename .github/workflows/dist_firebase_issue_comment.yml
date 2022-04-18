@@ -5,7 +5,7 @@ on:
 
 jobs:
   get_branch_name:
-    if: ${{ github.event.issue.pull_request && startsWith(toJson(github.event.comment.body), './distFirebase\r\n') }}
+    if: ${{ github.event.issue.pull_request && contains(toJson(github.event.comment.body), './distFirebase\r\n') }}
     runs-on: ubuntu-latest
     outputs:
       BRANCH_NAME: ${{ fromJSON(steps.pull_request.outputs.data).head.ref }}
