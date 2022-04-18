@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       BRANCH_NAME: ${{ fromJSON(steps.pull_request.outputs.data).head.ref }}
-      FEATURE1: ${{ env.FEATURE1 == '' && '' || fromJson(env.FEATURE1) }}
+      FEATURE1: ${{ fromJson(env.FEATURE1 == '' && '""' || env.FEATURE1) }}
     steps:
       - uses: actions/github-script@v6
         env:
