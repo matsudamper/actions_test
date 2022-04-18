@@ -42,12 +42,14 @@ jobs:
         env:
           BRANCH_NAME: ${{ fromJSON(steps.pull_request.outputs.data).head.ref }}
           ENV: ${{ toJson(env) }}
+          EVENT: ${{ github.event.issue }}
         run: |
           echo "===GITHUB_ENV==="
           cat $GITHUB_ENV
           echo "$BRANCH_NAME"
           echo "===ENV==="
           echo "$ENV"
+          echo "$EVENT"
   call_dist_firebase:
     needs: [get_info]
     uses: ./.github/workflows/call_deploy_app_distribution.yml
