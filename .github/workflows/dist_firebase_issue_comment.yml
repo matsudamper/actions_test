@@ -7,3 +7,14 @@ jobs:
   issue_comment:
     if: ${{ github.event.issue.pull_request && github.event.comment.body == './distFirebase' }}
     uses: ./.github/workflows/call_deploy_app_distribution.yml
+  tmp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: "test"
+        run: |
+          echo "test"
+          echo "${{ github.event.issue.comments_url }}"
+          echo "${{ github.event.pull_request.comments_url }}"
+          echo "github.event"
+          echo `${{ toJson(github.event) }}`
