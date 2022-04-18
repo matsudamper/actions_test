@@ -22,6 +22,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "test"
         env:
-          TMP: ${{ steps.pull_request.outputs.data }}
+          TMP: ${{ fromJSON(steps.pull_request.outputs.data).head }}
         run: |
           echo "$TMP"
