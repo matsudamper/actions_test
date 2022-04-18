@@ -8,13 +8,6 @@ on:
         type: string
 
 jobs:
-  dispatch_only:
-    if: ${{ !github.event.issue.pull_request }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: "test"
-        run: |
-          echo "test"
   main:
     runs-on: ubuntu-latest
     steps:
@@ -25,7 +18,11 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
       - name: "build step"
+        env:
+          TMP: ${{ toJson(github) }}
         run: |
+          echo "=====GITHUB====="
+          echo "$TMP"
           echo "=====BRANCH_NAME====="
           echo ${{ github.inputs.BRANCH_NAME }}
       - name: set
