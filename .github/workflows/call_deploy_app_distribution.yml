@@ -35,7 +35,7 @@ jobs:
         id: vars
         run: |
           echo "HTML<<EOS" >> $GITHUB_ENV
-          echo "$(cat <<EOS
+          echo "$(cat <<EOS2
           <table>
           <tr>
           <td>Firebase Version</td>
@@ -43,6 +43,7 @@ jobs:
           </tr>
           </table>
           EOS
+          EOS2
           )" >> $GITHUB_ENV
       - uses: octokit/request-action@v2.x
         id: create_check_run
