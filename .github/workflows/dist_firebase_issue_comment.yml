@@ -43,6 +43,8 @@ jobs:
           BRANCH_NAME: ${{ fromJSON(steps.pull_request.outputs.data).head.ref }}
           ENV: ${{ toJson(env) }}
         run: |
+          echo "===GITHUB_ENV==="
+          cat $GITHUB_ENV
           echo "$BRANCH_NAME"
           echo "===ENV==="
           echo "$ENV"
