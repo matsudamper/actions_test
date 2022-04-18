@@ -4,7 +4,7 @@ on:
     types: [ created ]
 
 jobs:
-  get_branch_name:
+  get_info:
     if: ${{ github.event.issue.pull_request && (github.event.comment.body == './distFirebase' || startsWith(toJson(github.event.comment.body), '"./distFirebase\r\n')) }}
     runs-on: ubuntu-latest
     outputs:
@@ -46,9 +46,9 @@ jobs:
           echo "===ENV==="
           echo "$ENV"
   call_dist_firebase:
-    needs: [get_branch_name]
+    needs: [get_info]
     uses: ./.github/workflows/call_deploy_app_distribution.yml
     with:
-      BRANCH_NAME: ${{ needs.get_branch_name.outputs.BRANCH_NAME }}
+      BRANCH_NAME: ${{ needs.get_info.outputs.BRANCH_NAME }}
       COMMENT_URL: ${{ github.event.issue.issue_comment_url }}
-      FEATURE1: ${{ env.FEATURE1 != null && false  }}
+      FEATURE1: ${{ env.FEATURE1 }}
