@@ -9,8 +9,9 @@ jobs:
     uses: ./.github/workflows/call_deploy_app_distribution.yml
   tmp:
     runs-on: ubuntu-latest
-    run: |
-      echo "${{ github.event.issue.comments_url }}"
-      echo "${{ github.event.pull_request.comments_url }}"
-      echo "github.event"
-      echo `${{ toJson(github.event) }}`
+    steps:
+      run: |
+        echo "${{ github.event.issue.comments_url }}"
+        echo "${{ github.event.pull_request.comments_url }}"
+        echo "github.event"
+        echo `${{ toJson(github.event) }}`
