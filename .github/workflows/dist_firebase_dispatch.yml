@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       FEATURE1:
-        description: "feature 1"
+        description: "FEATURE1"
         required: true
         default: false
         type: boolean

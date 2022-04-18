@@ -51,3 +51,4 @@ jobs:
     with:
       BRANCH_NAME: ${{ needs.get_branch_name.outputs.BRANCH_NAME }}
       COMMENT_URL: ${{ github.event.issue.issue_comment_url }}
+      FEATURE1: ${{ env.FEATURE1 != null && false  }}
