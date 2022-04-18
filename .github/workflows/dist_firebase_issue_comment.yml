@@ -55,5 +55,5 @@ jobs:
     uses: ./.github/workflows/call_deploy_app_distribution.yml
     with:
       BRANCH_NAME: ${{ needs.get_info.outputs.BRANCH_NAME }}
-      COMMENT_URL: ${{ github.event.issue.comment_url }}
+      COMMENT_URL: ${{ github.event.issue.comments_url }}
       FEATURE1: ${{ needs.get_info.outputs.FEATURE1 == 'true' }}
