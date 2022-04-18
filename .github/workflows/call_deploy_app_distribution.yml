@@ -61,7 +61,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: octokit/request-action@v2.x
-        if: ${{ github.event.issue.pull_request }}
+        if: ${{ inputs.COMMENT_URL }}
         id: comment
         with:
           route: POST ${{ inputs.COMMENT_URL }}
