@@ -24,7 +24,7 @@ jobs:
           echo "=====GITHUB====="
           echo "$TMP"
           echo "=====BRANCH_NAME====="
-          echo ${{ github.inputs.BRANCH_NAME }}
+          echo ${{ inputs.BRANCH_NAME }}
       - name: set
         id: vars
         run: |
