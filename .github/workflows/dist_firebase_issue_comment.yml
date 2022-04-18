@@ -10,8 +10,10 @@ jobs:
   tmp:
     runs-on: ubuntu-latest
     steps:
-      run: |
-        echo "${{ github.event.issue.comments_url }}"
-        echo "${{ github.event.pull_request.comments_url }}"
-        echo "github.event"
-        echo `${{ toJson(github.event) }}`
+      - name: "test"
+        run: |
+          echo "test"
+          echo "${{ github.event.issue.comments_url }}"
+          echo "${{ github.event.pull_request.comments_url }}"
+          echo "github.event"
+          echo `${{ toJson(github.event) }}`
