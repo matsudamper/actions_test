@@ -5,7 +5,7 @@ on:
 
 jobs:
   get_branch_name:
-    if: ${{ github.event.issue.pull_request && (github.event.comment.body == './distFirebase' || startsWith(github.event.comment.body, './distFirebase\r\n')) }}
+    # if: ${{ github.event.issue.pull_request && (github.event.comment.body == './distFirebase' || startsWith(github.event.comment.body, './distFirebase\r\n')) }}
     runs-on: ubuntu-latest
     outputs:
       BRANCH_NAME: ${{ fromJSON(steps.pull_request.outputs.data).head.ref }}
@@ -13,10 +13,11 @@ jobs:
       - uses: actions/github-script@v6
         env:
           COMMENT: ${{ github.event.comment.body }}
+          TMP: ${{ toJson(github.event.comment.body) }}
         with:
           script: |
-            const {COMMENT} = process.env
-            console.log(COMMENT)
+            const {COMMENT, TMP} = process.env
+            console.log(TMP)
             COMMENT.split('\n').forEach(function (line) {
               const index = line.indexOf('=')
               const left = line.substr(0, index)
