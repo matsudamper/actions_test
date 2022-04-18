@@ -57,7 +57,7 @@ jobs:
           status: "completed"
           output: |
             title: Summary
-            summary: ${{ env.HTML }}
+            summary: ${{ toJson(env.HTML) }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: octokit/request-action@v2.x
