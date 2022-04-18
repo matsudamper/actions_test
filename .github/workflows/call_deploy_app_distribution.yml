@@ -41,6 +41,10 @@ jobs:
           <td>Firebase Version</td>
           <td>hogehoge</td>
           </tr>
+          <tr>
+          <td>Branch</td>
+          <td>${{ inputs.BRANCH_NAME }}</td>
+          </tr>
           </table>
           EOS
           EOS2
