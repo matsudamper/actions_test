@@ -16,13 +16,6 @@ jobs:
         with:
           script: |
             const {COMMENT, GITHUB_ENV} = process.env
-            console.log('========')
-            console.log(COMMENT.split('\r\n'))
-            console.log('========')
-            console.log(COMMENT.split('\n'))
-            console.log('========')
-            console.log(COMMENT.split('\r'))
-            console.log('========')
             COMMENT.split('\r\n').forEach(function (line) {
               const index = line.indexOf('=')
               if(index > -1) {
@@ -30,7 +23,7 @@ jobs:
                 const right = line.substr(index + 1, line.length)
                 
                 const fs = require('fs');
-                fs.appendFile(GITHUB_ENV, left + '=' + JSON.stringify(right), function (err) {
+                fs.appendFile(GITHUB_ENV, left + '=' + JSON.stringify(right) + '\r\n', function (err) {
                   if (err) throw err;
                 });
               }
