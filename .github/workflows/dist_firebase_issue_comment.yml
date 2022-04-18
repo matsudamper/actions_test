@@ -13,7 +13,6 @@ jobs:
       - uses: actions/github-script@v6
         env:
           COMMENT: ${{ github.event.comment.body }}
-          TMP: ${{ toJson(github.event.comment.body) }}
         with:
           script: |
             const {COMMENT, TMP} = process.env
@@ -22,9 +21,8 @@ jobs:
               const index = line.indexOf('=')
               const left = line.substr(0, index)
               const right = line.substr(index + 1, line.length)
-              console.log(line)
-              console.log(left)
-              console.log(right)
+              
+              process.env[left] = JSON.stringify(right)
             }); 
       - uses: octokit/request-action@v2.x
         id: pull_request
