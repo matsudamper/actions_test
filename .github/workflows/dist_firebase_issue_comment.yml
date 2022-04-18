@@ -29,4 +29,4 @@ jobs:
     uses: ./.github/workflows/call_deploy_app_distribution.yml
     with:
       BRANCH_NAME: ${{ needs.get_branch_name.outputs.BRANCH_NAME }}
-
+      COMMENT_URL: ${{ github.event.issue.issue_comment_url }}

@@ -6,6 +6,10 @@ on:
         default: 'develop'
         required: true
         type: string
+      COMMENT_URL:
+        default: ''
+        required: true
+        type: string
 
 jobs:
   main:
@@ -17,14 +21,12 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-      - name: "build step"
-        env:
-          TMP: ${{ toJson(github) }}
+      - name: "parameter check"
         run: |
-          echo "=====GITHUB====="
-          echo "$TMP"
           echo "=====BRANCH_NAME====="
           echo ${{ inputs.BRANCH_NAME }}
+          echo "=====COMMENT_URL====="
+          echo ${{ inputs.COMMENT_URL }}
       - name: set
         id: vars
         run: |
@@ -56,7 +58,7 @@ jobs:
         if: ${{ github.event.issue.pull_request }}
         id: comment
         with:
-          route: POST ${{ github.event.issue.comments_url }}
+          route: POST ${{ inputs.COMMENT_URL }}
           body: ${{ toJSON(env.REQUEST_BODY) }}
         env:
           REQUEST_BODY: |
