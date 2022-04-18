@@ -12,9 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: "test"
+        env:
+          TMP: ${{ toJson(github.event) }}
         run: |
           echo "test"
           echo "${{ github.event.issue.comments_url }}"
           echo "${{ github.event.pull_request.comments_url }}"
           echo "github.event"
-          echo "${{ toJson(github.event) }}"
+          echo "$TMP"
