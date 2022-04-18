@@ -1,10 +1,10 @@
-name: issue comment
+name: distFirebase dispatch
 on:
   workflow_dispatch:
     inputs:
-      feature_1:
+      FEATURE1:
         description: "feature 1"
-        required: false
+        required: true
         default: false
         type: boolean
 
@@ -21,6 +21,6 @@ jobs:
   # call_dist_firebase:
   #   needs: [get_branch_name]
   #   uses: ./.github/workflows/call_deploy_app_distribution.yml
-  #     with:
-  #       BRANCH_NAME: ${{ needs.get_branch_name.outputs.BRANCH_NAME }}
+  #   with:
+  #     BRANCH_NAME: ${{ needs.get_branch_name.outputs.BRANCH_NAME }}
 

@@ -3,7 +3,6 @@ on:
   workflow_call:
     inputs:
       BRANCH_NAME:
-        default: 'develop'
         required: true
         type: string
       COMMENT_URL:

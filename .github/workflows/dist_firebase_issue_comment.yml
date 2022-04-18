@@ -1,4 +1,4 @@
-name: issue comment
+name: distFirebase issue comment
 on:
   issue_comment:
     types: [ created ]
