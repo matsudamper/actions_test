@@ -13,12 +13,10 @@ jobs:
       - uses: actions/github-script@v6
         env:
           COMMENT: ${{ github.event.comment.body }}
-          BODY_JSON: ${{ toJson(github.event.comment.body) }}
         with:
           script: |
-            const {COMMENT, BODY_JSON, GITHUB_ENV} = process.env
-            console.log(GITHUB_ENV)
-            COMMENT.split('\n').forEach(function (line) {
+            const {COMMENT, GITHUB_ENV} = process.env
+            COMMENT.split('\r\n').forEach(function (line) {
               const index = line.indexOf('=')
               if(index > -1) {
                 const left = line.substr(0, index)
