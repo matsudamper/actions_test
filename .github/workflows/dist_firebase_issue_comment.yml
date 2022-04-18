@@ -25,8 +25,8 @@ jobs:
         run: |
           echo "$BRANCH_NAME"
   call_dist_firebase:
-    - needs: [get_branch_name]
-    - uses: ./.github/workflows/call_deploy_app_distribution.yml
-      with:
-        BRANCH_NAME: ${{ needs.get_branch_name.outputs.BRANCH_NAME }}
+    needs: [get_branch_name]
+    uses: ./.github/workflows/call_deploy_app_distribution.yml
+    with:
+      BRANCH_NAME: ${{ needs.get_branch_name.outputs.BRANCH_NAME }}
 
