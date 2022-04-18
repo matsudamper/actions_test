@@ -6,8 +6,6 @@ on:
 jobs:
   issue_comment:
     if: ${{ github.event.issue.pull_request && github.event.comment.body == './distFirebase' }}
-    uses: ./.github/workflows/call_deploy_app_distribution.yml
-  tmp:
     runs-on: ubuntu-latest
     steps:
       - uses: octokit/request-action@v2.x
@@ -24,3 +22,4 @@ jobs:
           BRANCH_NAME: ${{ fromJSON(steps.pull_request.outputs.data).head.ref }}
         run: |
           echo "$BRANCH_NAME"
+    uses: ./.github/workflows/call_deploy_app_distribution.yml
