@@ -1,22 +1,16 @@
 name: deploy app distribution
 on:
   workflow_call:
-  workflow_dispatch:
     inputs:
-      feature_1:
-        description: "feature 1"
-        required: false
-        default: false
-        type: boolean
+      BRANCH_NAME:
+        required: true
+        type: string
+      COMMENT_URL:
+        default: ''
+        required: true
+        type: string
 
 jobs:
-  dispatch_only:
-    if: ${{ !github.event.issue.pull_request }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: "test"
-        run: |
-          echo "test"
   main:
     runs-on: ubuntu-latest
     steps:
@@ -26,14 +20,16 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-      - name: "build step"
+      - name: "parameter check"
         run: |
-          echo ${{ github.event.inputs.feature_1 }}
-          echo '${{ toJson(github) }}'
+          echo "=====BRANCH_NAME====="
+          echo ${{ inputs.BRANCH_NAME }}
+          echo "=====COMMENT_URL====="
+          echo ${{ inputs.COMMENT_URL }}
       - name: set
         id: vars
         run: |
-          echo ::set-output name=html::$(cat << EOS
+          echo $(cat HTML<<EOS
           <table>
           <tr>
           <td>Firebase Version</td>
@@ -41,7 +37,7 @@ jobs:
           </tr>
           </table>
           EOS
-          )
+          ) >> $GITHUB_ENV
       - uses: octokit/request-action@v2.x
         id: create_check_run
         with:
@@ -54,14 +50,14 @@ jobs:
           status: "completed"
           output: |
             title: Summary
-            summary: ${{ steps.vars.outputs.html }}
+            summary: ${{ env.HTML }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: octokit/request-action@v2.x
         if: ${{ github.event.issue.pull_request }}
         id: comment
         with:
-          route: POST ${{ github.event.issue.comments_url }}
+          route: POST ${{ inputs.COMMENT_URL }}
           body: ${{ toJSON(env.REQUEST_BODY) }}
         env:
           REQUEST_BODY: |
