@@ -11,10 +11,12 @@ jobs:
       BRANCH_NAME: ${{ fromJSON(steps.pull_request.outputs.data).head.ref }}
     steps:
       - uses: actions/github-script@v6
+        env:
+          COMMENT: ${{ github.event.comment.body }}
         with:
           script: |
-            console.log(context)
-            console.log(context.inputs)
+            const {COMMENT} = process.env
+            console.log(COMMENT)
       - uses: octokit/request-action@v2.x
         id: pull_request
         with:
