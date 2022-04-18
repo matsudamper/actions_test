@@ -10,6 +10,13 @@ on:
         type: boolean
 
 jobs:
+  dispatch_only:
+    if: ${{ !github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "test"
+        run: |
+          echo "test"
   main:
     runs-on: ubuntu-latest
     steps:
@@ -22,7 +29,7 @@ jobs:
       - name: "build step"
         run: |
           echo ${{ github.event.inputs.feature_1 }}
-          echo ${{ toJson(github) }}
+          echo '${{ toJson(github) }}'
       - name: set
         id: vars
         run: |
