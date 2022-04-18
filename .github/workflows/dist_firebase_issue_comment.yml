@@ -5,11 +5,16 @@ on:
 
 jobs:
   get_branch_name:
-    if: ${{ github.event.issue.pull_request && github.event.comment.body == './distFirebase' }}
+    if: ${{ github.event.issue.pull_request && (github.event.comment.body == './distFirebase' || startsWith(github.event.comment.body, './distFirebase ')) }}
     runs-on: ubuntu-latest
     outputs:
       BRANCH_NAME: ${{ fromJSON(steps.pull_request.outputs.data).head.ref }}
     steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            console.log(context)
+            console.log(context.inputs)
       - uses: octokit/request-action@v2.x
         id: pull_request
         with:

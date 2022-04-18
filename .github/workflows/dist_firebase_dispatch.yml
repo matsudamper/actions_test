@@ -9,18 +9,8 @@ on:
         type: boolean
 
 jobs:
-  tmp:
-    runs-on: ubuntu-latest
-    steps:
-      - name: hoge
-        env:
-          TMP: ${{ toJson(github) }}
-        run: |
-          echo "$TMP"
-          
-  # call_dist_firebase:
-  #   needs: [get_branch_name]
-  #   uses: ./.github/workflows/call_deploy_app_distribution.yml
-  #   with:
-  #     BRANCH_NAME: ${{ needs.get_branch_name.outputs.BRANCH_NAME }}
-
+  call_dist_firebase:
+    uses: ./.github/workflows/call_deploy_app_distribution.yml
+    with:
+      BRANCH_NAME: ${{ github.ref_name }}
+      FEATURE1: ${{ inputs.FEATURE1 }}

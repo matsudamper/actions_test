@@ -9,6 +9,9 @@ on:
         default: ''
         required: true
         type: string
+      FEATURE1:
+        default: false
+        type: boolean
 
 jobs:
   main:
@@ -26,6 +29,8 @@ jobs:
           echo ${{ inputs.BRANCH_NAME }}
           echo "=====COMMENT_URL====="
           echo ${{ inputs.COMMENT_URL }}
+          echo "=====FEATURE1====="
+          echo ${{ inputs.FEATURE1 }}
       - name: set
         id: vars
         run: |
