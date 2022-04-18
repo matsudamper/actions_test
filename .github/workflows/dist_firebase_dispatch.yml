@@ -1,0 +1,16 @@
+name: distFirebase dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      FEATURE1:
+        description: "FEATURE1"
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  call_dist_firebase:
+    uses: ./.github/workflows/call_deploy_app_distribution.yml
+    with:
+      BRANCH_NAME: ${{ github.ref_name }}
+      FEATURE1: ${{ inputs.FEATURE1 }}

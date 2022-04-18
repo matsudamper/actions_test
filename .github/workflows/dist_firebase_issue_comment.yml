@@ -1,20 +1,57 @@
-name: issue comment
+name: distFirebase issue comment
 on:
   issue_comment:
     types: [ created ]
 
 jobs:
-  issue_comment:
-    if: ${{ github.event.issue.pull_request && github.event.comment.body == './distFirebase' }}
-    uses: ./.github/workflows/call_deploy_app_distribution.yml
-  tmp:
+  get_info:
+    if: ${{ github.event.issue.pull_request && (github.event.comment.body == './distFirebase' || startsWith(toJson(github.event.comment.body), '"./distFirebase\r\n')) }}
     runs-on: ubuntu-latest
+    outputs:
+      BRANCH_NAME: ${{ fromJSON(steps.pull_request.outputs.data).head.ref }}
+      FEATURE1: ${{ fromJson(env.FEATURE1) }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        env:
+          COMMENT: ${{ github.event.comment.body }}
+        with:
+          script: |
+            const {COMMENT, GITHUB_ENV} = process.env
+            COMMENT.split('\r\n').forEach(function (line) {
+              const index = line.indexOf('=')
+              if(index > -1) {
+                const left = line.substr(0, index)
+                const right = line.substr(index + 1, line.length)
+                
+                const fs = require('fs');
+                fs.appendFile(GITHUB_ENV, left + '=' + JSON.stringify(right) + '\n', function (err) {
+                  if (err) throw err;
+                });
+              }
+            }); 
+      - uses: octokit/request-action@v2.x
+        id: pull_request
+        with:
+          route: GET /repos/{owner}/{repo}/pulls/{pull_number}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          pull_number: ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "test"
+        env:
+          BRANCH_NAME: ${{ fromJSON(steps.pull_request.outputs.data).head.ref }}
+          ENV: ${{ toJson(env) }}
         run: |
-          echo "test"
-          echo "${{ github.event.issue.comments_url }}"
-          echo "${{ github.event.pull_request.comments_url }}"
-          echo "github.event"
-          echo `${{ toJson(github.event) }}`
+          echo "===GITHUB_ENV==="
+          cat $GITHUB_ENV
+          echo "$BRANCH_NAME"
+          echo "===ENV==="
+          echo "$ENV"
+  call_dist_firebase:
+    needs: [get_info]
+    uses: ./.github/workflows/call_deploy_app_distribution.yml
+    with:
+      BRANCH_NAME: ${{ needs.get_info.outputs.BRANCH_NAME }}
+      COMMENT_URL: ${{ github.event.issue.issue_comment_url }}
+      FEATURE1: ${{ needs.get_info.outputs.FEATURE1 == 'true' }}

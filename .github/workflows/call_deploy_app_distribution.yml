@@ -1,22 +1,19 @@
 name: deploy app distribution
 on:
   workflow_call:
-  workflow_dispatch:
     inputs:
-      feature_1:
-        description: "feature 1"
-        required: false
+      BRANCH_NAME:
+        required: true
+        type: string
+      COMMENT_URL:
+        default: ''
+        required: true
+        type: string
+      FEATURE1:
         default: false
         type: boolean
 
 jobs:
-  dispatch_only:
-    if: ${{ !github.event.issue.pull_request }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: "test"
-        run: |
-          echo "test"
   main:
     runs-on: ubuntu-latest
     steps:
@@ -26,14 +23,19 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-      - name: "build step"
+      - name: "parameter check"
         run: |
-          echo ${{ github.event.inputs.feature_1 }}
-          echo '${{ toJson(github) }}'
+          echo "=====BRANCH_NAME====="
+          echo ${{ inputs.BRANCH_NAME }}
+          echo "=====COMMENT_URL====="
+          echo ${{ inputs.COMMENT_URL }}
+          echo "=====FEATURE1====="
+          echo ${{ inputs.FEATURE1 }}
       - name: set
         id: vars
         run: |
-          echo ::set-output name=html::$(cat << EOS
+          echo "HTML<<EOS" >> $GITHUB_ENV
+          echo "$(cat <<EOS2
           <table>
           <tr>
           <td>Firebase Version</td>
@@ -41,7 +43,8 @@ jobs:
           </tr>
           </table>
           EOS
-          )
+          EOS2
+          )" >> $GITHUB_ENV
       - uses: octokit/request-action@v2.x
         id: create_check_run
         with:
@@ -54,14 +57,14 @@ jobs:
           status: "completed"
           output: |
             title: Summary
-            summary: ${{ steps.vars.outputs.html }}
+            summary: ${{ toJson(env.HTML) }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: octokit/request-action@v2.x
-        if: ${{ github.event.issue.pull_request }}
+        if: ${{ inputs.COMMENT_URL }}
         id: comment
         with:
-          route: POST ${{ github.event.issue.comments_url }}
+          route: POST ${{ inputs.COMMENT_URL }}
           body: ${{ toJSON(env.REQUEST_BODY) }}
         env:
           REQUEST_BODY: |
