@@ -11,12 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: octokit/request-action@v2.x
+        id: pull_request
+        with:
+          route: GET /repos/{owner}/{repo}/pulls/{pull_number}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          pull_number: $${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "test"
         env:
           TMP: ${{ toJson(github.event) }}
         run: |
-          echo "test"
-          echo "${{ github.event.issue.comments_url }}"
-          echo "${{ github.event.pull_request.comments_url }}"
-          echo "github.event"
-          echo "$TMP"
+          echo "${{ steps.pull_request.outputs.data }}"
