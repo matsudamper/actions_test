@@ -1,13 +1,11 @@
 name: deploy app distribution
 on:
   workflow_call:
-  workflow_dispatch:
     inputs:
-      feature_1:
-        description: "feature 1"
+      BRANCH_NAME:
+        default: 'develop'
         required: false
-        default: false
-        type: boolean
+        type: string
 
 jobs:
   dispatch_only:
@@ -28,12 +26,12 @@ jobs:
           distribution: 'temurin'
       - name: "build step"
         run: |
-          echo ${{ github.event.inputs.feature_1 }}
-          echo "${{ toJson(github) }}"
+          echo "=====BRANCH_NAME====="
+          echo ${{ github.inputs.BRANCH_NAME }}
       - name: set
         id: vars
         run: |
-          echo ::set-output name=html::$(cat << EOS
+          echo $(cat HTML<<EOS
           <table>
           <tr>
           <td>Firebase Version</td>
@@ -41,7 +39,7 @@ jobs:
           </tr>
           </table>
           EOS
-          )
+          ) >> $GITHUB_ENV
       - uses: octokit/request-action@v2.x
         id: create_check_run
         with:
@@ -54,7 +52,7 @@ jobs:
           status: "completed"
           output: |
             title: Summary
-            summary: ${{ steps.vars.outputs.html }}
+            summary: ${{ env.HTML }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: octokit/request-action@v2.x
