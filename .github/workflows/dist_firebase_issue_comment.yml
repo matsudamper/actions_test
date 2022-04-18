@@ -5,7 +5,7 @@ on:
 
 jobs:
   get_branch_name:
-    if: ${{ github.event.issue.pull_request && (github.event.comment.body == './distFirebase' || startsWith(github.event.comment.body, './distFirebase ')) }}
+    if: ${{ github.event.issue.pull_request && (github.event.comment.body == './distFirebase' || startsWith(github.event.comment.body, './distFirebase\n')) }}
     runs-on: ubuntu-latest
     outputs:
       BRANCH_NAME: ${{ fromJSON(steps.pull_request.outputs.data).head.ref }}
@@ -17,6 +17,14 @@ jobs:
           script: |
             const {COMMENT} = process.env
             console.log(COMMENT)
+            COMMENT.split('\n').forEach(function (line) {
+              const index = line.indexOf('=')
+              const left = line.substr(0, index)
+              const right = line.substr(index + 1, line.length)
+              console.log(line)
+              console.log(left)
+              console.log(right)
+            }); 
       - uses: octokit/request-action@v2.x
         id: pull_request
         with:
