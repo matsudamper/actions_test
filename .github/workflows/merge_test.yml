@@ -16,9 +16,9 @@ jobs:
       - uses: actions/checkout@v3
       - name: 1
         run: |
-          echo ${TEST_TOKEN}
+          echo ${{ secrets.TEST_TOKEN }}
       - name: 1
         env:
-          TEST_TOKEN: ${{ env.TEST_TOKEN }}
+          TEST_TOKEN: ${{ secrets.TEST_TOKEN }}
         run: |
           echo ${TEST_TOKEN}
