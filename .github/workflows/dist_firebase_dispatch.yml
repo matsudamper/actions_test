@@ -17,4 +17,4 @@ jobs:
         with:
           BRANCH_NAME: ${{ github.ref_name }}
           FEATURE1: ${{ inputs.FEATURE1 }}
-  
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
