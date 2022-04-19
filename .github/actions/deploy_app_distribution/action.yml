@@ -62,7 +62,7 @@ runs:
           title: Summary
           summary: ${{ toJson(env.HTML) }}
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ github.GITHUB_TOKEN }}
     - uses: octokit/request-action@v2.x
       if: ${{ inputs.COMMENT_URL }}
       id: comment
@@ -73,4 +73,4 @@ runs:
         REQUEST_BODY: |
           Multi-line string with *special* characters:
           - "'`
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ github.GITHUB_TOKEN }}
