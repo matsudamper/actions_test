@@ -11,6 +11,10 @@ inputs:
   FEATURE1:
     default: false
     type: boolean
+  GITHUB_TOKEN:
+    required: true
+    type: string
+
 runs:
   using: composite
   steps:
@@ -62,7 +66,7 @@ runs:
           title: Summary
           summary: ${{ toJson(env.HTML) }}
       env:
-        GITHUB_TOKEN: ${{ github.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
     - uses: octokit/request-action@v2.x
       if: ${{ inputs.COMMENT_URL }}
       id: comment
@@ -73,4 +77,4 @@ runs:
         REQUEST_BODY: |
           Multi-line string with *special* characters:
           - "'`
-        GITHUB_TOKEN: ${{ github.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
