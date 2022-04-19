@@ -21,6 +21,7 @@ runs:
         java-version: '11'
         distribution: 'temurin'
     - name: "parameter check"
+      shell: bash
       run: |
         echo "=====BRANCH_NAME====="
         echo ${{ inputs.BRANCH_NAME }}
@@ -30,6 +31,7 @@ runs:
         echo ${{ inputs.FEATURE1 }}
     - name: set
       id: vars
+      shell: bash
       run: |
         echo "HTML<<EOS" >> $GITHUB_ENV
         echo "$(cat <<EOS2
