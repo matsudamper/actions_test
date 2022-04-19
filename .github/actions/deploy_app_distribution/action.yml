@@ -1,0 +1,74 @@
+name: deploy app distribution
+description: deploy app distribution
+inputs:
+  BRANCH_NAME:
+    required: true
+    type: string
+  COMMENT_URL:
+    default: ''
+    required: true
+    type: string
+  FEATURE1:
+    default: false
+    type: boolean
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+    - name: "parameter check"
+      run: |
+        echo "=====BRANCH_NAME====="
+        echo ${{ inputs.BRANCH_NAME }}
+        echo "=====COMMENT_URL====="
+        echo ${{ inputs.COMMENT_URL }}
+        echo "=====FEATURE1====="
+        echo ${{ inputs.FEATURE1 }}
+    - name: set
+      id: vars
+      run: |
+        echo "HTML<<EOS" >> $GITHUB_ENV
+        echo "$(cat <<EOS2
+        <table>
+        <tr>
+        <td>Firebase Version</td>
+        <td>hogehoge</td>
+        </tr>
+        <tr>
+        <td>Branch</td>
+        <td>${{ inputs.BRANCH_NAME }}</td>
+        </tr>
+        </table>
+        EOS
+        EOS2
+        )" >> $GITHUB_ENV
+    - uses: octokit/request-action@v2.x
+      id: create_check_run
+      with:
+        route: POST /repos/{owner}/{repo}/check-runs
+        owner: ${{ github.repository_owner }}
+        repo: ${{ github.event.repository.name }}
+        name: "Result Dashboard"
+        head_sha: ${{ github.sha }}
+        conclusion: "success"
+        status: "completed"
+        output: |
+          title: Summary
+          summary: ${{ toJson(env.HTML) }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: octokit/request-action@v2.x
+      if: ${{ inputs.COMMENT_URL }}
+      id: comment
+      with:
+        route: POST ${{ inputs.COMMENT_URL }}
+        body: ${{ toJSON(env.REQUEST_BODY) }}
+      env:
+        REQUEST_BODY: |
+          Multi-line string with *special* characters:
+          - "'`
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
