@@ -12,6 +12,7 @@ jobs:
   call_dist_firebase:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: .github/actions/deploy_app_distribution
         with:
           BRANCH_NAME: ${{ github.ref_name }}
