@@ -73,9 +73,7 @@ jobs:
 
           branchName="release/${major}.${minor}.${patch}"
           git branch $branchName
-          git stash
           git switch $branchName
-          git stash pop
           echo "==========status========="
           git status
           echo "==========add========="
