@@ -95,8 +95,9 @@ jobs:
           script: |
             const {PR_URL} = process.env
 
-            const url = PR_URL.replace("https://github.com", "https://api.github.com/repos")
-                              .replace("/pull/", "/issues/comments/")
+            var url = PR_URL.replace("https://github.com", "https://api.github.com/repos")
+                              .replace("/pull/", "/issues/")
+            url += "/comments";
             console.log(PR_URL);
             console.log(url);
             core.setOutput("url",  url);
