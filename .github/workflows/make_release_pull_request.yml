@@ -60,6 +60,8 @@ jobs:
       - run: |
           echo '${{ toJSON(github) }}'
       - name: "make pull request"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           versionCode='${{ fromJson(steps.version_info.outputs.version_info).VERSION_CODE }}'
           major='${{ fromJson(steps.version_info.outputs.version_info).MAJOR_VERSION_NAME }}'
@@ -74,11 +76,9 @@ jobs:
           branchName="release/${major}.${minor}.${patch}"
           git branch $branchName
           git switch $branchName
-          echo "==========status========="
-          git status
-          echo "==========add========="
           git add "release_info/version.json"
           echo "==========commit========="
           git commit -m "release ${major}.${minor}.${patch} v${versionCode}"
-          echo "==========status========="
-          git status
+          git push --set-upstream origin $branchName
+
+          gh pr create --base master --title "release ${major}.${minor}.${patch} v${versionCode}"
