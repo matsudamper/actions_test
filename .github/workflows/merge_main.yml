@@ -57,6 +57,7 @@ jobs:
           echo "${{ steps.failure_step }}"
           echo "${{ toJson(steps.failure_step) }}"
       - name: Check-Runs
+        if: always()
         uses: octokit/request-action@v2.x
         id: create_check_run
         env:
