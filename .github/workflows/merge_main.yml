@@ -60,6 +60,7 @@ jobs:
         uses: octokit/request-action@v2.x
         id: create_check_run
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           conclusion: "success"
         with:
           route: POST /repos/{owner}/{repo}/check-runs
@@ -77,5 +78,3 @@ jobs:
               
               - summary
               - summary
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
