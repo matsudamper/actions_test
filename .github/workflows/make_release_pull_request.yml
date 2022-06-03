@@ -47,7 +47,7 @@ jobs:
 
             const jsonObject = JSON.parse(file);
             jsonObject.VERSION_CODE += 1;
-            fs.writeFileSync("release_info/version.json", JSON.stringify(jsonObject));
+            fs.writeFileSync("release_info/version.json", JSON.stringify(jsonObject, null, 4));
       - id: version_info
         uses: actions/github-script@v6
         with:
