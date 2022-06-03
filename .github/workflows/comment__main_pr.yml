@@ -1,0 +1,21 @@
+on:
+  pull_request:
+    types: [opened]
+    branches:    
+      - 'main'
+    
+name: Comment main PR
+jobs:
+  comment:
+    name: Assign author to PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: comment_bitrise
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST ${{ github.event.issue.comments_url }}
+          body: ${{ toJSON(env.REQUEST_BODY) }}
+        env:
+          REQUEST_BODY: |
+            test comment
+          GITHUB_TOKEN: ${{ github.token }}
