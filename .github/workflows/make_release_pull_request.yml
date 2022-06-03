@@ -35,7 +35,7 @@ jobs:
 
             const jsonObject = JSON.parse(file);
             jsonObject.PATCH_VERSION_NAME += 1;
-            fs.writeFileSync("release_info/version.json", JSON.stringify(jsonObject));
+            fs.writeFileSync("release_info/version.json", JSON.stringify(jsonObject, null, 4));
       - name: "update version code"
         if: ${{ github.event.inputs.IS_UPDATE_VERSION_CODE == 'true' }}
         uses: actions/github-script@v6
@@ -71,7 +71,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          branchName="release/${major}.${minor}.${patch}-9"
+          branchName="release/${major}.${minor}.${patch}"
           git branch $branchName
           git stash
           git switch $branchName
