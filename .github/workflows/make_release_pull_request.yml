@@ -76,7 +76,11 @@ jobs:
           git stash
           git switch $branchName
           git stash pop
+          echo "==========status========="
           git status
+          echo "==========add========="
           git add "release_info/version.json"
+          echo "==========commit========="
           git commit -m "release ${major}.${minor}.${patch} v${versionCode}"
+          echo "==========status========="
           git status
