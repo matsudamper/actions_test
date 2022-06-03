@@ -84,7 +84,7 @@ jobs:
 
           echo "========== gh pr create ========="
           releasePrUrl=$(gh pr create --base main --title "release ${major}.${minor}.${patch} v${versionCode}" --body "")
-          echo '${releasePrUrl}'
+          echo "${releasePrUrl}"
           echo "::set-output name=release_pr_url::${releasePrUrl}"
       - name: "Translate comment URL"
         id: translate_comment_url
