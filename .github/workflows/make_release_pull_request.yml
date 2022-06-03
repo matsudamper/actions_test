@@ -100,10 +100,12 @@ jobs:
             console.log(PR_URL);
             console.log(url);
             core.setOutput("url",  url);
-      - name: Comment
+      - name: Comment      
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST ${{ steps.translate_comment_url.outputs.url }}
+          body: ${{ toJSON(env.REQUEST_BODY) }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COMMENT_URL: ${{ steps.translate_comment_url.outputs.url }}
-        run: |
-          echo "comment"
-          echo ${COMMENT_URL}
+          GITHUB_TOKEN: ${{ github.token }}
+          REQUEST_BODY: |
+            test comment
