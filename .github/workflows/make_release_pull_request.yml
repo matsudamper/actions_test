@@ -1,0 +1,28 @@
+name: dispatch make release pull request
+on:
+  workflow_dispatch:
+    inputs:
+      IS_UPDATE_PATCH_VERSION:
+        default: true
+        required: true
+        type: boolean
+      IS_UPDATE_VERSION_CODE:
+        default: false
+        required: true
+        type: boolean
+
+jobs:
+  make_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - name: "update"
+        if: ${{ github.event.inputs.IS_UPDATE_PATCH_VERSION == true }}
+        run: | 
+          echo "IS_UPDATE_PATCH_VERSION"
