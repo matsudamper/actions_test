@@ -1,4 +1,4 @@
-name: dispatch make release pull request
+name: Create Release PR
 on:
   workflow_dispatch:
     inputs:
