@@ -27,7 +27,7 @@ jobs:
           repo: ${{ github.event.repository.name }}
           name: "artifacts"
           head_sha: ${{ github.sha }}
-          conclusion: ${{ (steps.main_step.outcome == "failure" && "failure") || "success" }}
+          conclusion: ${{ (steps.main_step.outcome == 'failure' && 'failure') || 'success' }}
           status: "completed"
           output: |
             title: "Artifacts"
@@ -66,7 +66,7 @@ jobs:
           repo: ${{ github.event.repository.name }}
           name: "artifacts"
           head_sha: ${{ github.sha }}
-          conclusion: ${{ (steps.main_step.outcome == "failure" && "failure") || "success" }}
+          conclusion: ${{ (steps.main_step.outcome == 'failure' && 'failure') || 'success' }}
           status: "completed"
           output: |
             title: "Artifacts"
