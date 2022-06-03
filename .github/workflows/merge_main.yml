@@ -38,3 +38,38 @@ jobs:
               - summary
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  dist_play_store_fail_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - run: |
+          # fail
+          sl
+      - name: Check-Runs
+        uses: octokit/request-action@v2.x
+        id: create_check_run
+        with:
+          route: POST /repos/{owner}/{repo}/check-runs
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          name: "artifacts"
+          head_sha: ${{ github.sha }}
+          conclusion: ${{ (failure() && "failure") || "success" }}
+          status: "completed"
+          output: |
+            title: "Artifacts"
+            summary: |
+              summary
+              `summary`
+              
+              - summary
+              - summary
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
