@@ -36,6 +36,13 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            const fs = require("fs");
+
+            fs.readFile("release_info/version.json", "utf-8", (err, data) => {
+              if (err) throw err;
+              console.log(data);
+            });
+            
             core.setOutput("name", "test/ntest")
       - name: "make pull request"
         run: |
