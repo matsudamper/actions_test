@@ -97,8 +97,10 @@ jobs:
 
             const url = PR_URL.replace("https://github.com", "https://api.github.com/repos")
                               .replace("/pull/", "/issues/comments/")
+            console.log(PR_URL);
+            console.log(url);
             core.setOutput("url",  url);
-      - name: Run Script
+      - name: Comment
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMENT_URL: ${{ steps.translate_comment_url.outputs.url }}
