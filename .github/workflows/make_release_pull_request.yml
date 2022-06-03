@@ -110,3 +110,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           REQUEST_BODY: |
             test comment
+      - name: git branch test
+        run: |
+          git checkout $GITHUB_HEAD_REF
+          git branch -a
