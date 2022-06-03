@@ -32,6 +32,10 @@ jobs:
         if: ${{ github.event.inputs.IS_UPDATE_VERSION_CODE == 'true' }}
         run: | 
           echo "IS_UPDATE_VERSION_CODE"
+      - name: "pwd"
+        if: ${{ github.event.inputs.IS_UPDATE_VERSION_CODE == 'true' }}
+        run: | 
+          pwd
       - id: version_info
         uses: actions/github-script@v6
         with:
@@ -42,7 +46,7 @@ jobs:
               if (err) throw err;
               console.log(data);
             });
-            
+
             core.setOutput("name", "test/ntest")
       - name: "make pull request"
         run: |
