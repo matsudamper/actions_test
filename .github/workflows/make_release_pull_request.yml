@@ -83,9 +83,9 @@ jobs:
           git push --set-upstream origin $branchName
 
           echo "========== gh pr create ========="
-          gh pr create --base main --title "release ${major}.${minor}.${patch} v${versionCode}" --body ""
-          releasePrUrl="https://github.com/matsudamper/actions_test/pull/46"
-          echo "::set-output name=release_pr_url::$(releasePrUrl)"
+          releasePrUrl=$(gh pr create --base main --title "release ${major}.${minor}.${patch} v${versionCode}" --body "")
+          echo '${releasePrUrl}'
+          echo "::set-output name=release_pr_url::${releasePrUrl}"
       - name: "Translate comment URL"
         id: translate_comment_url
         uses: actions/github-script@v6
