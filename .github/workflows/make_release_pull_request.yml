@@ -41,6 +41,9 @@ jobs:
             core.setOutput("version_info", file)
       - name: "make pull request"
         run: |
-          echo ${{ fromJson(steps.version_info.outputs.version_info).MAJOR_VERSION_NAME }}
-          echo ${{ fromJson(steps.version_info.outputs.version_info).MINOR_VERSION_NAME }}
-          echo ${{ fromJson(steps.version_info.outputs.version_info).PATCH_VERSION_NAME }}
+          major='${{ fromJson(steps.version_info.outputs.version_info).MAJOR_VERSION_NAME }}'
+          minor='${{ fromJson(steps.version_info.outputs.version_info).MINOR_VERSION_NAME }}'
+          patch='${{ fromJson(steps.version_info.outputs.version_info).PATCH_VERSION_NAME }}'
+          echo $major
+          echo $minor
+          echo $patch
