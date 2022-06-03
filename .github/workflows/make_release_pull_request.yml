@@ -38,6 +38,7 @@ jobs:
           script: |
             const fs = require("fs");
             const file = fs.readFileSync("release_info/version.json", "utf8");
+            console.log(file);
             const jsonObject = JSON.parse(file);
             jsonObject.PATCH_VERSION_NAME += 1;
             fs.writeFileSync("release_info/version.json", Json.stringify(jsonObject));
