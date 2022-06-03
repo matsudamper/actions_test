@@ -1,8 +1,6 @@
 on:
   pull_request:
     types: [opened]
-    branches:    
-      - 'main'
     
 name: Comment main PR
 jobs:
