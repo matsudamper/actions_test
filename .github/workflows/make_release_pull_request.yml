@@ -75,7 +75,9 @@ jobs:
 
           branchName="release/${major}.${minor}.${patch}"
           git branch $branchName
+          git stash
           git switch $branchName
+          git stash pop
           git add "release_info/version.json"
           echo "==========commit========="
           git commit -m "release ${major}.${minor}.${patch} v${versionCode}"
