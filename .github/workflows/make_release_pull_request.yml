@@ -81,6 +81,8 @@ jobs:
           git add "release_info/version.json"
           echo "==========commit========="
           git commit -m "release ${major}.${minor}.${patch} v${versionCode}"
-          git push --set-upstream origin $branchName
 
-          gh pr create --base master --title "release ${major}.${minor}.${patch} v${versionCode}" --body "empty"
+          git log --graph
+          # git push --set-upstream origin $branchName
+
+          # gh pr create --base master --title "release ${major}.${minor}.${patch} v${versionCode}" --body "empty"
