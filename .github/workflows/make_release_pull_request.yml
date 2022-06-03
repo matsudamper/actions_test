@@ -71,7 +71,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          branchName="release/${major}.${minor}.${patch}-8"
+          branchName="release/${major}.${minor}.${patch}-9"
           git branch $branchName
           git stash
           git switch $branchName
