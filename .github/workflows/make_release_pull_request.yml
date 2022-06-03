@@ -68,6 +68,9 @@ jobs:
           echo $major
           echo $minor
           echo $patch
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
           branchName="release/${major}.${minor}.${patch}"
           git branch $branchName
           git switch $branchName
