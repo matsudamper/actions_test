@@ -73,17 +73,14 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          branchName="release/${major}.${minor}.${patch}-1"
+          branchName="release/${major}.${minor}.${patch}-3"
           git branch $branchName
           git stash
           git switch $branchName
           git stash pop
-          git add "release_info/version.json"
-          echo "==========commit========="
-          git commit -m "release ${major}.${minor}.${patch} v${versionCode}"
 
-          echo "==========graph========="
-          git log --graph
+          git add "release_info/version.json"
+          git commit -m "release ${major}.${minor}.${patch} v${versionCode}"
           git push --set-upstream origin $branchName
 
-          gh pr create --base main --title "release ${major}.${minor}.${patch} v${versionCode}" --body "empty"
+          gh pr create --base main --title "release ${major}.${minor}.${patch} v${versionCode}" --body ""
