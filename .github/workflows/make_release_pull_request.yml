@@ -57,6 +57,8 @@ jobs:
             console.log(file);
 
             core.setOutput("version_info",  fs.readFileSync("release_info/version.json", "utf8"));
+      - run: |
+          echo '${{ toJSON(github) }}'
       - name: "make pull request"
         run: |
           versionCode='${{ fromJson(steps.version_info.outputs.version_info).VERSION_CODE }}'
@@ -73,5 +75,3 @@ jobs:
           git add "release_info/version.json"
           git commit -m "release ${major}.${minor}.${patch} v${versionCode}"
           git status
-        run: |
-          echo '${{ toJSON(github) }}'
