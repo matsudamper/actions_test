@@ -26,12 +26,28 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: "update patch version"
         if: ${{ github.event.inputs.IS_UPDATE_PATCH_VERSION == 'true' }}
-        run: | 
-          echo "IS_UPDATE_PATCH_VERSION"
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require("fs");
+            const file = fs.readFileSync("release_info/version.json", "utf8");
+            console.log(file);
+
+            const jsonObject = JSON.parse(file);
+            jsonObject.PATCH_VERSION_NAME += 1;
+            fs.writeFileSync("release_info/version.json", JSON.stringify(jsonObject));
       - name: "update version code"
         if: ${{ github.event.inputs.IS_UPDATE_VERSION_CODE == 'true' }}
-        run: | 
-          echo "IS_UPDATE_VERSION_CODE"
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require("fs");
+            const file = fs.readFileSync("release_info/version.json", "utf8");
+            console.log(file);
+
+            const jsonObject = JSON.parse(file);
+            jsonObject.VERSION_CODE += 1;
+            fs.writeFileSync("release_info/version.json", JSON.stringify(jsonObject));
       - id: version_info
         uses: actions/github-script@v6
         with:
@@ -39,16 +55,17 @@ jobs:
             const fs = require("fs");
             const file = fs.readFileSync("release_info/version.json", "utf8");
             console.log(file);
-            const jsonObject = JSON.parse(file);
-            jsonObject.PATCH_VERSION_NAME += 1;
-            fs.writeFileSync("release_info/version.json", JSON.stringify(jsonObject));
 
             core.setOutput("version_info",  fs.readFileSync("release_info/version.json", "utf8"));
       - name: "make pull request"
         run: |
+          versionCode='${{ fromJson(steps.version_info.outputs.version_info).VERSION_CODE }}'
           major='${{ fromJson(steps.version_info.outputs.version_info).MAJOR_VERSION_NAME }}'
           minor='${{ fromJson(steps.version_info.outputs.version_info).MINOR_VERSION_NAME }}'
           patch='${{ fromJson(steps.version_info.outputs.version_info).PATCH_VERSION_NAME }}'
           echo $major
           echo $minor
           echo $patch
+          branchName = "release/${major}.${minor}.${patch}"
+          git branch -d $branchName
+          git switch $branchName
