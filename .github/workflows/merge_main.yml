@@ -64,7 +64,7 @@ jobs:
           route: POST /repos/{owner}/{repo}/check-runs
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
-          name: "artifacts"
+          name: "failure artifacts"
           head_sha: ${{ github.sha }}
           conclusion: ${{ (steps.main_step.outcome == 'failure' && 'failure') || 'success' }}
           status: "completed"
