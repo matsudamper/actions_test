@@ -60,6 +60,7 @@ jobs:
       - run: |
           echo '${{ toJSON(github) }}'
       - name: "make pull request"
+        id: make_pull_request
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -81,4 +82,24 @@ jobs:
           git commit -m "release ${major}.${minor}.${patch} v${versionCode}"
           git push --set-upstream origin $branchName
 
-          gh pr create --base main --title "release ${major}.${minor}.${patch} v${versionCode}" --body ""
+          releasePrUrl=$(gh pr create --base main --title "release ${major}.${minor}.${patch} v${versionCode}" --body "")
+          echo "::set-output name=release_pr_url::$(releasePrUrl)"
+      - name: "Translate comment URL"
+        id: translate_comment_url
+        uses: actions/github-script@v6
+        env:
+          PR_URL: ${{ steps.make_pull_request.outpts.release_pr_url }}
+        with:
+          script: |
+            const {PR_URL} = process.env
+
+            const url = PR_URL.replace("https://github.com", "https://api.github.com/repos")
+                              .replace("/pull/", "/issues/comments/")
+            core.setOutput("url",  url);
+      - name: Run Script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMENT_URL: ${{ steps.translate_comment_url.outputs.url }}
+        run: |
+          echo "comment"
+          echo ${COMMENT_URL}
