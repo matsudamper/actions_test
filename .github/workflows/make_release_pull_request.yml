@@ -33,7 +33,6 @@ jobs:
         run: | 
           echo "IS_UPDATE_VERSION_CODE"
       - name: "pwd"
-        if: ${{ github.event.inputs.IS_UPDATE_VERSION_CODE == 'true' }}
         run: | 
           pwd
       - id: version_info
