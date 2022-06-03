@@ -7,10 +7,10 @@ jobs:
     name: Assign author to PR
     runs-on: ubuntu-latest
     steps:
-      - name: comment_bitrise
+      - name: comment
         uses: octokit/request-action@v2.x
         with:
-          route: POST ${{ github.event.issue.comments_url }}
+          route: POST ${{ github.event.repository.issue_comment_url }}
           body: ${{ toJSON(env.REQUEST_BODY) }}
         env:
           REQUEST_BODY: |
