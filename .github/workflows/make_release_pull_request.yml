@@ -73,3 +73,5 @@ jobs:
           git add "release_info/version.json"
           git commit -m "release ${major}.${minor}.${patch} v${versionCode}"
           git status
+        run: |
+          echo '${{ toJSON(github) }}'
