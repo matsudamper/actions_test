@@ -15,7 +15,8 @@ jobs:
           java-version: '11'
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-      - run: |
+      - id: main_step
+        run: |
           ./gradlew
       - name: Check-Runs
         uses: octokit/request-action@v2.x
@@ -26,7 +27,7 @@ jobs:
           repo: ${{ github.event.repository.name }}
           name: "artifacts"
           head_sha: ${{ github.sha }}
-          conclusion: "success"
+          conclusion: ${{ (steps.main_step.outcome == "failure" && "failure") || "success" }}
           status: "completed"
           output: |
             title: "Artifacts"
@@ -49,28 +50,23 @@ jobs:
           java-version: '11'
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-      - id: failure_step
+      - id: main_step
         run: |
           # fail
           sl
-      - if: always()
-        run: |
-          echo "${{ steps.failure_step }}"
-          echo "${{ toJson(steps.failure_step) }}"
       - name: Check-Runs
         if: always()
         uses: octokit/request-action@v2.x
         id: create_check_run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          conclusion: "success"
         with:
           route: POST /repos/{owner}/{repo}/check-runs
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
           name: "artifacts"
           head_sha: ${{ github.sha }}
-          conclusion: ${{ env.conclusion }}
+          conclusion: ${{ (steps.main_step.outcome == "failure" && "failure") || "success" }}
           status: "completed"
           output: |
             title: "Artifacts"
