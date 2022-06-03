@@ -56,14 +56,14 @@ jobs:
         uses: octokit/request-action@v2.x
         id: create_check_run
         env:
-          failure: failure()
+          conclusion: ${{ (failure() && "failure") || "success" }}
         with:
           route: POST /repos/{owner}/{repo}/check-runs
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
           name: "artifacts"
           head_sha: ${{ github.sha }}
-          conclusion: ${{ (env.failure && "failure") || "success" }}
+          conclusion: ${{ env.conclusion }}
           status: "completed"
           output: |
             title: "Artifacts"
