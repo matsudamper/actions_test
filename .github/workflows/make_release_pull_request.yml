@@ -73,7 +73,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          branchName="release/${major}.${minor}.${patch}"
+          branchName="release/${major}.${minor}.${patch}-0"
           git branch $branchName
           git stash
           git switch $branchName
@@ -86,4 +86,4 @@ jobs:
           git log --graph
           git push --set-upstream origin $branchName
 
-          gh pr create --base master --title "release ${major}.${minor}.${patch} v${versionCode}" --body "empty"
+          gh pr create --head "refs/heads/main" --base master --title "release ${major}.${minor}.${patch} v${versionCode}" --body "empty"
