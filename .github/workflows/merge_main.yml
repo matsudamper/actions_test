@@ -53,7 +53,8 @@ jobs:
         run: |
           # fail
           sl
-      - run: |
+      - if: always()
+        run: |
           echo "${{ steps.failure_step }}"
           echo "${{ toJson(steps.failure_step) }}"
       - name: Check-Runs
