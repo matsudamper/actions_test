@@ -1,0 +1,78 @@
+name: Merge Main
+on:
+  push:
+    branches:    
+      - 'main'
+
+jobs:
+  dist_play_store:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - id: main_step
+        run: |
+          ./gradlew
+      - name: Check-Runs
+        uses: octokit/request-action@v2.x
+        id: create_check_run
+        with:
+          route: POST /repos/{owner}/{repo}/check-runs
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          name: "artifacts"
+          head_sha: ${{ github.sha }}
+          conclusion: ${{ (steps.main_step.outcome == 'failure' && 'failure') || 'success' }}
+          status: "completed"
+          output: |
+            title: "Artifacts"
+            summary: |
+              summary
+              `summary`
+              
+              - summary
+              - summary
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  dist_play_store_fail_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - id: main_step
+        run: |
+          # fail
+          sl
+      - name: Check-Runs
+        if: always()
+        uses: octokit/request-action@v2.x
+        id: create_check_run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          route: POST /repos/{owner}/{repo}/check-runs
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          name: "failure artifacts"
+          head_sha: ${{ github.sha }}
+          conclusion: ${{ (steps.main_step.outcome == 'failure' && 'failure') || 'success' }}
+          status: "completed"
+          output: |
+            title: "Artifacts"
+            summary: |
+              summary
+              `summary`
+              
+              - summary
+              - summary
