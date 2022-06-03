@@ -1,4 +1,4 @@
-name: merge_test
+name: check
 on:
   pull_request:
   workflow_dispatch:

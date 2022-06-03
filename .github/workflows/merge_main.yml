@@ -1,0 +1,39 @@
+name: Merge Main
+on:
+  push:
+    branches:    
+      - 'main'
+
+jobs:
+  dist_play_store:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - run: |
+          ./gradlew
+      - name: Check-Runs
+        uses: octokit/request-action@v2.x
+        id: create_check_run
+        with:
+          route: POST /repos/{owner}/{repo}/check-runs
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          name: "artifacts"
+          head_sha: ${{ github.sha }}
+          conclusion: "success"
+          status: "completed"
+          output: |
+            title: "Artifacts"
+            summary: |
+              summary
+              `summary`
+              
+              - summary
+              - summary
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
