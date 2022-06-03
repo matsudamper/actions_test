@@ -32,21 +32,17 @@ jobs:
         if: ${{ github.event.inputs.IS_UPDATE_VERSION_CODE == 'true' }}
         run: | 
           echo "IS_UPDATE_VERSION_CODE"
-      - name: "pwd"
-        run: | 
-          pwd
       - id: version_info
         uses: actions/github-script@v6
         with:
           script: |
             const fs = require("fs");
+            
+            const file = fs.readFileSync("release_info/version.json", "utf8");
 
-            fs.readFile("release_info/version.json", "utf-8", (err, data) => {
-              if (err) throw err;
-              console.log(data);
-            });
-
-            core.setOutput("name", "test/ntest")
+            core.setOutput("version_info", file)
       - name: "make pull request"
         run: |
-          echo ${{ steps.version_info.outputs.name }}
+          echo ${{ fromJson(steps.version_info.outputs.name).MAJOR_VERSION_NAME }}
+          echo ${{ fromJson(steps.version_info.outputs.name).MINOR_VERSION_NAME }}
+          echo ${{ fromJson(steps.version_info.outputs.name).PATCH_VERSION_NAME }}
