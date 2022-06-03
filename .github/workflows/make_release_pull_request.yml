@@ -67,5 +67,5 @@ jobs:
           echo $minor
           echo $patch
           branchName="release/${major}.${minor}.${patch}"
-          git branch -d $branchName
+          git branch $branchName
           git switch $branchName
