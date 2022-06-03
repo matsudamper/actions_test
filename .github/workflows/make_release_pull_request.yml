@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       IS_UPDATE_PATCH_VERSION:
+        name: "Update Pathch Version"
         default: true
         required: true
         type: boolean
