@@ -24,7 +24,19 @@ jobs:
           java-version: '11'
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-      - name: "update"
+      - name: "update patch version"
         if: ${{ github.event.inputs.IS_UPDATE_PATCH_VERSION == 'true' }}
         run: | 
           echo "IS_UPDATE_PATCH_VERSION"
+      - name: "update version code"
+        if: ${{ github.event.inputs.IS_UPDATE_VERSION_CODE == 'true' }}
+        run: | 
+          echo "IS_UPDATE_VERSION_CODE"
+      - id: version_info
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.setOutput("name", "test/ntest")
+      - name: "make pull request"
+        run: |
+          echo ${{ steps.version_info.outputs.name }}
