@@ -37,9 +37,7 @@ jobs:
         with:
           script: |
             const fs = require("fs");
-            
             const file = fs.readFileSync("release_info/version.json", "utf8");
-
             core.setOutput("version_info", file)
       - name: "make pull request"
         run: |
