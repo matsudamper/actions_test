@@ -43,4 +43,4 @@ jobs:
             core.setOutput("version_info", file)
       - name: "make pull request"
         run: |
-          echo ${{ fromJson(steps.version_info.outputs.name) }}
+          echo ${{ fromJson(steps.version_info.outputs.version_info) }}
