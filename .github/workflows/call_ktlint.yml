@@ -21,7 +21,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: ktlintFormat
-      - name: set
+      - name: set diff
         if: ${{ failure() }}
         id: vars
         run: |
