@@ -8,7 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "${{ toJSON(github) }}"
+          echo "${GITHUB_CONTEXT}"
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
       - name: comment
         uses: octokit/request-action@v2.x
         with:
