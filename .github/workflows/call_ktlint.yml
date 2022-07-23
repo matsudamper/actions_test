@@ -25,6 +25,8 @@ jobs:
         if: ${{ failure() }}
         id: vars
         run: |
+          export main.kts.compiled.cache="~/.kotlin-script-cache"
+          
           start=$(date +%s)
           result=$(.github/workflows/script/diff_annotations.main.kts)
           end=$(date +%s)
@@ -40,7 +42,9 @@ jobs:
           
           echo "second time"
           echo $end - $start
-
+          
+          ls -al ${main.kts.compiled.cache}
+          find ${main.kts.compiled.cache}
       - name: print
         if: ${{ failure() }}
         run: |
