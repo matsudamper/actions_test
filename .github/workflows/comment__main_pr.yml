@@ -4,6 +4,7 @@ on:
 name: Comment main PR
 jobs:
   comment:
+    permissions: read-all|write-all
     name: Assign author to PR
     runs-on: ubuntu-latest
     steps:
