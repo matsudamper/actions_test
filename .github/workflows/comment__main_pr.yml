@@ -15,6 +15,7 @@ jobs:
         uses: octokit/request-action@v2.x
         with:
           route: POST ${{ github.event.pull_request._links.review_comment.href }}
+          number: ${{ github.event.number }}
           body: ${{ toJSON(env.REQUEST_BODY) }}
         env:
           REQUEST_BODY: |
