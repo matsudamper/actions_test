@@ -25,17 +25,17 @@ jobs:
         if: ${{ failure() }}
         id: vars
         run: |
+          start=$(date +%s)
           result=$(.github/workflows/script/diff_annotations.main.kts)
+          end=$(date +%s)
           echo $result
+          echo $end - $start
           echo ::set-output name=annotations::$result
       - name: print
         if: ${{ failure() }}
         run: |
-          start=$(date +%s)
           echo ${{ toJson(steps.vars.outputs.annotations) }}
-          end=$(date +%s)
           
-          echo $end - $start
           echo "====="
           echo ${{ steps.vars.outputs.annotations }}
           echo "===sha==="
