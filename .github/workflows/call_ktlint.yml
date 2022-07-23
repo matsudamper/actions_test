@@ -29,16 +29,15 @@ jobs:
           result=$(.github/workflows/script/diff_annotations.main.kts)
           end=$(date +%s)
           echo $result
-          
+          echo ::set-output name=annotations::$result
           
           start=$(date +%s)
           result=$(.github/workflows/script/diff_annotations.main.kts)
           end=$(date +%s)
           
-          echo "second time
+          echo "second time"
           echo $end - $start
-          
-          echo ::set-output name=annotations::$result
+
       - name: print
         if: ${{ failure() }}
         run: |
