@@ -14,9 +14,11 @@ jobs:
       - name: comment
         uses: octokit/request-action@v2.x
         with:
-          route: POST ${{ github.event.pull_request._links.review_comment.href }}
+          route: POST /repos/{owner}/{repo}/comments/{number}
           number: ${{ github.event.number }}
           body: ${{ toJSON(env.REQUEST_BODY) }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.pull_request.base.repo.name }}
         env:
           REQUEST_BODY: |
             test comment
