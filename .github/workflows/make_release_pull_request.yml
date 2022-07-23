@@ -58,7 +58,7 @@ jobs:
 
             core.setOutput("version_info",  fs.readFileSync("release_info/version.json", "utf8"));
       - run: |
-          echo '${{ toJSON(github) }}'
+          echo `${{ toJSON(github) }}`
       - name: "make pull request"
         id: make_pull_request
         env:
