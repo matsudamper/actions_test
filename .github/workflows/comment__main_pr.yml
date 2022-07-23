@@ -14,7 +14,7 @@ jobs:
       - name: comment
         uses: octokit/request-action@v2.x
         with:
-          route: POST ${{ github.event.pull_request.review_comment }}
+          route: POST ${{ github.event.pull_request.review_comment.href }}
           body: ${{ toJSON(env.REQUEST_BODY) }}
         env:
           REQUEST_BODY: |
