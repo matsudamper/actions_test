@@ -23,8 +23,11 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: ktlintFormat
-
+      - name: Make KotlinScript cache dir
+        if: ${{ failure() }}
+        run: mkdir -p ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
       - name: Kotlin Script Cache
+        if: ${{ failure() }}
         uses: actions/cache@v3
         with:
           path: ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
@@ -48,8 +51,8 @@ jobs:
           echo "second time"
           echo $end - $start
           
-          ls -al ${main.kts.compiled.cache}
-          find ${main.kts.compiled.cache}
+          ls -al ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
+          find ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
       - name: print
         if: ${{ failure() }}
         run: |
