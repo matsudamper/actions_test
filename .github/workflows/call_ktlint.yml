@@ -5,6 +5,8 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
+    env:
+      KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR: "~/.kotlin-script-cache"
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -21,12 +23,15 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: ktlintFormat
+
+      - name: Kotlin Script Cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
       - name: set diff
         if: ${{ failure() }}
         id: vars
         run: |
-          export main.kts.compiled.cache="~/.kotlin-script-cache"
-          
           start=$(date +%s)
           result=$(.github/workflows/script/diff_annotations.main.kts)
           end=$(date +%s)
