@@ -23,7 +23,9 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: ktlintFormat
-      - uses: ./.github/actions/exec_kotlin_script
+      - name: =========================test
+        if: ${{ failure() }}
+        uses: ./.github/actions/exec_kotlin_script
         with:
           cache_dir: "${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}"
           filename: ".github/workflows/script/diff_annotations.main.kts"
