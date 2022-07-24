@@ -26,9 +26,15 @@ jobs:
       - name: =========================test
         if: ${{ failure() }}
         uses: ./.github/actions/exec_kotlin_script
+        id: script-result
         with:
           cache_dir: "${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}"
           filename: ".github/workflows/script/diff_annotations.main.kts"
+      - name: =========================test-output
+        if: ${{ failure() }}
+        run: |
+          echo "${{ steps.script-result.outputs.result }}"
+          
       - name: Make KotlinScript cache dir
         if: ${{ failure() }}
         run: mkdir -p ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
