@@ -26,6 +26,7 @@ jobs:
       - name: Make KotlinScript cache dir
         if: ${{ failure() }}
         run: mkdir -p ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
+        key: kotlin-script-cache
       - name: Kotlin Script Cache
         if: ${{ failure() }}
         uses: actions/cache@v3
