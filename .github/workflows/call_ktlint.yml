@@ -24,7 +24,7 @@ jobs:
         with:
           arguments: ktlintFormat
       - name: ==================test
-        uses: matsudamper/actions_test/.github/workflows/exec_kotlin_script.yml
+        uses: matsudamper/actions_test/.github/workflows/exec_kotlin_script.yml@test
         with:
           cache_dir: "${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}"
           filename: ".github/workflows/script/diff_annotations.main.kts"
