@@ -34,7 +34,7 @@ jobs:
         if: ${{ failure() }}
         run: |
           echo "${{ steps.script-result.outputs.result }}"
-          
+
       - name: Make KotlinScript cache dir
         if: ${{ failure() }}
         run: mkdir -p ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}

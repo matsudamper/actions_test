@@ -33,4 +33,4 @@ runs:
         RESULT="${MY_STRING//'%'/'%25'}"
         RESULT="${MY_STRING//$'\n'/'%0A'}"
         RESULT="${MY_STRING//$'\r'/'%0D'}"
-        echo "::set-output name=result::RESULT"
+        echo "::set-output name=result::$RESULT"
