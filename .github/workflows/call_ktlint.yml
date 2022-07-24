@@ -23,6 +23,11 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: ktlintFormat
+      - name: ==================test
+        uses: matsudamper/actions_test/.github/workflows/exec_kotlin_script.yml
+        with:
+          cache_dir: "${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}"
+          filename: ".github/workflows/script/diff_annotations.main.kts"
       - name: Make KotlinScript cache dir
         if: ${{ failure() }}
         run: mkdir -p ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}

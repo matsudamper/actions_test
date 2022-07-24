@@ -1,0 +1,38 @@
+name: Exec Kotlin Script
+
+on:
+  workflow_call:
+    inputs:
+      filename:
+        required: true
+        type: string
+      cache_dir:
+        required: true
+        type: string
+    outputs:
+      result:
+        description: "kotlin script result"
+        value: ${{ jobs.reusable_workflow_job.outputs.result }}
+jobs:
+  reusable_workflow_job:
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.exec.outputs.result }}
+    env:
+      KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR: ${{ inputs.cache_dir }}
+    steps:
+      - name: Make KotlinScript cache dir
+        run: mkdir -p ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
+      - name: Kotlin Script Cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
+          key: kotlin-script-cache
+      - name: exec kotlin script
+        id: exec
+        run: |
+          RESULT=$(${{ filename }})
+          RESULT="${MY_STRING//'%'/'%25'}"
+          RESULT="${MY_STRING//$'\n'/'%0A'}"
+          RESULT="${MY_STRING//$'\r'/'%0D'}"
+          echo "::set-output name=result::RESULT"
