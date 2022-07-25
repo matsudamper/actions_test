@@ -5,10 +5,10 @@ on:
 
 jobs:
   test:
-    if: ${{ github.run_attempt != 1 }}
+#    if: ${{ github.run_attempt != 1 }}
     uses: ./.github/workflows/call_test.yml
   lint:
-    if: ${{ github.run_attempt != 1 }}
+#    if: ${{ github.run_attempt != 1 }}
     uses: ./.github/workflows/call_ktlint.yml
   tmp:
     runs-on: ubuntu-latest

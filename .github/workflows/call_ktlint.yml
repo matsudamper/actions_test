@@ -5,6 +5,8 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
+    env:
+      KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR: "~/.kotlin-script-cache"
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -21,17 +23,54 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: ktlintFormat
+      - name: =========================test
+        if: ${{ failure() }}
+        uses: ./.github/actions/exec_kotlin_script
+        id: script-result
+        with:
+          cache_dir: "${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}"
+          filename: ".github/workflows/script/diff_annotations.main.kts"
+      - name: =========================test-output
+        if: ${{ failure() }}
+        run: |
+          echo "${{ steps.script-result.outputs.result }}"
+
+      - name: Make KotlinScript cache dir
+        if: ${{ failure() }}
+        run: mkdir -p ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
+      - name: Kotlin Script Cache
+        if: ${{ failure() }}
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
+          key: kotlin-script-cache
       - name: set diff
         if: ${{ failure() }}
         id: vars
         run: |
+          start=$(date +%s)
           result=$(.github/workflows/script/diff_annotations.main.kts)
+          end=$(date +%s)
           echo $result
           echo ::set-output name=annotations::$result
+          
+          echo "first time"
+          echo $end - $start
+          
+          start=$(date +%s)
+          result=$(.github/workflows/script/diff_annotations.main.kts)
+          end=$(date +%s)
+          
+          echo "second time"
+          echo $end - $start
+          
+          ls -al ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
+          find ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
       - name: print
         if: ${{ failure() }}
         run: |
           echo ${{ toJson(steps.vars.outputs.annotations) }}
+          
           echo "====="
           echo ${{ steps.vars.outputs.annotations }}
           echo "===sha==="

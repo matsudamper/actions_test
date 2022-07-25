@@ -1,0 +1,36 @@
+name: Exec Kotlin Script
+description: Exec Kotlin Script
+
+inputs:
+  filename:
+    required: true
+    description: kotlin script filename
+  cache_dir:
+    required: true
+    description: script jar cache folder
+
+outputs:
+  result:
+    description: "kotlin script result"
+    value: ${{ steps.exec.outputs.result }}
+
+runs:
+  using: composite
+  steps:
+    - name: Make KotlinScript cache dir
+      shell: bash
+      run: mkdir -p ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
+    - name: Kotlin Script Cache
+      uses: actions/cache@v3
+      with:
+        path: ${{ env.KOTLIN_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR }}
+        key: kotlin-script-cache
+    - name: exec kotlin script
+      id: exec
+      shell: bash
+      run: |
+        RESULT=$(${{ inputs.filename }})
+        RESULT="${MY_STRING//'%'/'%25'}"
+        RESULT="${MY_STRING//$'\n'/'%0A'}"
+        RESULT="${MY_STRING//$'\r'/'%0D'}"
+        echo "::set-output name=result::$RESULT"
