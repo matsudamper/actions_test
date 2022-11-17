@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
     versionCatalogs {
         create("libs") {
-            val version = "1.6.0"
+            val version = "1.9.0"
             library("android-core-ktx", "androidx.core:core-ktx:$version")
         }
     }
