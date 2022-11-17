@@ -11,6 +11,12 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+    @Suppress("UnstableApiUsage")
+    versionCatalogs {
+        create("libs") {
+            library("android-core-ktx", "androidx.core:core-ktx:1.6.0")
+        }
+    }
 }
 rootProject.name = "actions_test"
 include(":app")
