@@ -1,0 +1,59 @@
+name: Assign Author
+on:
+  issues:
+    types: [opened, reopened]
+  pull_request:
+    types: [opened, reopened]
+permissions:
+  contents: none
+  issues: write
+  pull-requests: write
+
+jobs:
+  assignIssue:
+    if: ${{ github.event.issue && !github.event.issue.assignee }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: print github
+        run: |
+          echo "$JSON"
+        env:
+          JSON: ${{ toJson(github) }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Assign Issue
+        id: assign_issue
+        uses: octokit/request-action@v2.x
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ASSIGNEES: '["${{ github.actor }}"]'
+        with:
+          route: POST /repos/${{ github.repository }}/issues/{issue_number}/assignees
+          issue_number: ${{ github.event.issue.number }}
+          assignees: ${{ env.ASSIGNEES }}
+      - name: Output Result
+        run: |
+          echo '${{ toJson(steps.assign_issue.outputs) }}' >> $GITHUB_STEP_SUMMARY
+
+  assignPR:
+    if: ${{ github.event.pull_request && !github.event.pull_request.assignee }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: print github
+        run: |
+          echo "$JSON"
+        env:
+          JSON: ${{ toJson(github) }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Assign PR
+        id: assign_pr
+        uses: octokit/request-action@v2.x
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ASSIGNEES: '["${{ github.actor }}"]'
+        with:
+          route: POST /repos/${{ github.repository }}/issues/{issue_number}/assignees
+          issue_number: ${{ github.event.pull_request.number }}
+          assignees: ${{ env.ASSIGNEES }}
+      - name: Output Result
+        run: |
+          echo '${{ toJson(steps.assign_pr.outputs) }}' >> $GITHUB_STEP_SUMMARY
