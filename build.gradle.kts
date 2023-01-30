@@ -5,7 +5,7 @@ plugins {
     id("com.android.application") version "7.4.0-alpha08" apply false
     id("com.android.library") version "7.4.0-alpha08" apply false
     id("org.jetbrains.kotlin.android") version "1.6.20" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "10.3.0" apply false
+    id("org.jlleitschuh.gradle.ktlint") version "11.1.0" apply false
 }
 
 repositories {
